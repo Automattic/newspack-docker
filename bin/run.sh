@@ -8,15 +8,15 @@ set -e
 # jetpack docker build-image
 
 user="${APACHE_RUN_USER:-www-data}"
-group="${APACHE_RUN_GROUP:-www-data}"
 
 chmod +x /var/scripts/init-wp.sh
 
-if [[ -n $user ]];
+if [ $user != 'www-data' ];
 	then
 	echo Switching to user $user
 	su -c "/var/scripts/init-wp.sh" -m $user
 else
+	echo Running as default user $user
 	/var/scripts/init-wp.sh
 fi
 
