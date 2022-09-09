@@ -29,6 +29,10 @@ case $1 in
     shell)
         docker exec -it $USER_COMMAND newspack_dev sh -c "wp shell --allow-root"
         ;;
+    wp)
+        cmd="wp --allow-root ${@:2}"
+        docker exec -it $USER_COMMAND newspack_dev $cmd
+        ;;
     install)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install.sh"
         ;;
