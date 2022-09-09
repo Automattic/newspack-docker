@@ -1,0 +1,48 @@
+#!/bin/bash
+source .env
+
+if [ $# -eq 0 ]; then
+	echo "No arguments provided"
+	exit 1
+fi
+
+if [ ! -z "$USE_CUSTOM_APACHE_USER" ]
+then
+    USER_COMMAND="--user $USE_CUSTOM_APACHE_USER "
+else
+    USER_COMMAND=""
+fi
+
+case $1 in
+    start)
+        docker-compose up -d
+        ;;
+    stop)
+        docker-compose down
+        ;;
+    sh)
+        docker exec -it $USER_COMMAND newspack_dev /bin/bash
+        ;;
+    rsh)
+        docker exec -it newspack_dev /bin/bash
+        ;;
+    shell)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "wp shell --allow-root"
+        ;;
+    install)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install.sh"
+        ;;
+    build)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/build-repos.sh $2"
+        ;;
+    watch)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/watch-repo.sh $2"
+        ;;
+    test-php)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/test-php.sh $2"
+        ;;
+    test-js)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/test-js.sh $2"
+        ;;
+esac
+
