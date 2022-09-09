@@ -73,9 +73,9 @@ The `n` script will help you perform actions inside the containers. Some example
 Build one specific project:
 
 ```BASH
-n build theme
-n build newspack-plugin
-n build newsletters
+n build theme # Builds the newspack-theme repo
+n build newspack-plugin # Builds the main plugin
+n build newsletters # You can also omit the 'newspack-' prefix from plugins
 ```
 
 Watch projects:
