@@ -36,6 +36,9 @@ case $1 in
     install)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install.sh"
         ;;
+    uninstall)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/uninstall.sh"
+        ;;
     build)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/build-repos.sh $2"
         ;;
@@ -47,6 +50,15 @@ case $1 in
         ;;
     test-js)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/test-js.sh $2"
+        ;;
+    db)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "wp db cli --allow-root"
+        ;;
+    tail)
+        tail -f html/wp-content/debug.log
+        ;;
+    *)
+        echo Unknown command
         ;;
 esac
 
