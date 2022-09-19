@@ -16,7 +16,7 @@ WHAT_TO_WATCH="$1"
 case $WHAT_TO_WATCH in
     theme)
         cd "$CODE_PATH/newspack-theme"
-        bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST 5.8.1
+        bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST latest
         phpunit
         ;;
     *)
@@ -30,7 +30,7 @@ case $WHAT_TO_WATCH in
             fi
         fi
         cd "${CODE_PATH}/${WHAT_TO_WATCH}"
-        bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST 5.8.1
+        bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST latest
         phpunit
         ;;
 esac
