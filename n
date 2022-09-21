@@ -19,7 +19,7 @@ case $1 in
         docker-compose up -d
         ;;
     start8)
-        docker-compose -f docker-composer-8.yml up -d
+        docker-compose -f docker-compose-8.yml up -d
         ;;
     stop)
         docker-compose down
