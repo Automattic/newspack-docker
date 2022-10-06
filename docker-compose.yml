@@ -55,4 +55,9 @@ services:
       - HOST_PORT=${PORT_WORDPRESS:-80}
      # - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
       - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
-
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025

@@ -17,7 +17,7 @@ WHAT_TO_BUILD="$1"
 build_dir() {
     echo "Building $1"
     cd $1
-    npm ci
+    npm ci --legacy-peer-deps
     composer install
     npm run build
 }
@@ -28,6 +28,7 @@ case $WHAT_TO_BUILD in
         do :
             build_dir "$CODE_PATH/$dir"
         done
+        build_dir "$CODE_PATH/newspack-theme"
         ;;
     theme)
         build_dir "$CODE_PATH/newspack-theme"

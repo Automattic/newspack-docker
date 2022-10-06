@@ -30,7 +30,7 @@ RUN \
 		libsodium23 \
 		mysql-client \
 		nano \
-#		ssmtp \
+	ssmtp \
 		subversion \
 		sudo \
 		unzip \
@@ -66,6 +66,7 @@ RUN \
 		php${PHP_VERSION}-xml \
 		php${PHP_VERSION}-xsl \
 		php${PHP_VERSION}-zip \
+	php${PHP_VERSION}-memcached \
 		phpunit \
 	&& apt-get install -y --no-install-recommends \
 		php${PHP_VERSION}-apcu \
@@ -129,9 +130,6 @@ COPY ./config/ssmtp.conf /etc/ssmtp/ssmtp.conf
 # Make apache run with the desired user
 COPY ./bin/init_apache_user.sh /usr/local/bin/init_apache_user
 RUN chmod +x /usr/local/bin/init_apache_user && /usr/local/bin/init_apache_user
-
-# RUN if [[ -n "$APACHE_RUN_USER" ]]; then useradd "${APACHE_RUN_USER}" -s /bin/bash; fi
-# RUN if [[ -n "$APACHE_RUN_USER" ]]; then sed -i "s|www-data|${APACHE_RUN_USER}|g" /etc/apache2/envvars; fi
 
 # Copy our cmd bash script.
 COPY ./bin/run.sh /usr/local/bin/run
