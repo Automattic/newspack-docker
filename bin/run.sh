@@ -78,7 +78,7 @@ chmod +x /var/scripts/run-extras.sh && . /var/scripts/run-extras.sh
 chmod +x /var/scripts/link-repos.sh && . /var/scripts/link-repos.sh
 
 # Memcached
-# cp /var/scripts/object-cache.php /var/www/html/wp-content/
+cp /var/scripts/object-cache.php /var/www/html/wp-content/
 
 # Clean up pre-existing Apache pid file
 APACHE_PID_FILE="/run/apache2/apache2.pid"
@@ -88,9 +88,11 @@ fi
 
 echo
 echo "Open http://${WP_DOMAIN}${WP_HOST_PORT}/ to see your site!"
+echo "Open http://localhost:8025 to see Mailhog inbox."
 echo
 
-# /etc/init.d/memcached start
+# Start memcached
+/etc/init.d/memcached start
 
 # Run apache in the foreground so the container keeps running
 echo "Running Apache in the foreground"

@@ -30,13 +30,14 @@ RUN \
 		libsodium23 \
 		mysql-client \
 		nano \
-	ssmtp \
+		ssmtp \
 		subversion \
 		sudo \
 		unzip \
 		vim \
 		zip \
 		wget \
+		memcached \
 	&& apt-get remove --purge --auto-remove -y software-properties-common \
 	&& rm -rf /var/lib/apt/lists/* ~/.launchpadlib
 
@@ -66,7 +67,7 @@ RUN \
 		php${PHP_VERSION}-xml \
 		php${PHP_VERSION}-xsl \
 		php${PHP_VERSION}-zip \
-	php${PHP_VERSION}-memcached \
+		php${PHP_VERSION}-memcache \
 		phpunit \
 	&& apt-get install -y --no-install-recommends \
 		php${PHP_VERSION}-apcu \

@@ -105,3 +105,13 @@ Enter the container bash
 n sh # as the apache user, if USE_CUSTOM_APACHE_USER was set in your .env
 n rsh # as root
 ```
+
+## Mailhog
+
+Mailhog is running by default so you can see all the emails that are sent from your WordPress site.
+
+Visit http://localhost:8025 to see it.
+
+## Memcached
+
+By default, Memcached plugin is enabled. If you want to disable it, simply delete the `html/wp-content/object-cache.php` file.
