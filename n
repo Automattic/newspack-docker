@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/leo/develop/newspack-docker
+cd "$(dirname "$0")"
 source .env
 
 if [ $# -eq 0 ]; then

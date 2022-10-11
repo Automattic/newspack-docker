@@ -7,6 +7,7 @@ newspack_plugins=(
 	"newspack-newsletters"
 	"newspack-plugin"
 	"newspack-popups"
+	"newspack-manager"
 	"super-cool-ad-inserter-plugin"
 )
 
