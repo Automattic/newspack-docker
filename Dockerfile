@@ -38,6 +38,7 @@ RUN \
 		zip \
 		wget \
 		memcached \
+		rsync \
 	&& apt-get remove --purge --auto-remove -y software-properties-common \
 	&& rm -rf /var/lib/apt/lists/* ~/.launchpadlib
 
