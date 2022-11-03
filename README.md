@@ -106,6 +106,28 @@ n sh # as the apache user, if USE_CUSTOM_APACHE_USER was set in your .env
 n rsh # as root
 ```
 
+## Jurassic Ninja
+
+There are some commands to help you work with Jurassic Ninja
+
+### Initialize and Sets up a new JN Site
+```BASH
+n jninit user domain.jurassic.ninja
+```
+
+This command Sets up a new Jurassic Ninja site. It will
+* Upload the newspack-plugin from your machine to JN
+* Run `wp newspack setup`
+
+### Copy plugins to a JN Site
+```BASH
+n jncp user domain.jurassic.ninja
+```
+
+This command will allow you to copy one or many plugins from your local env to the JN site at once.
+
+This is useful if you want to replace the plugin in the site with the custom branch you have checked out, or if you want to upload any other plugin you have.
+
 ## Mailhog
 
 Mailhog is running by default so you can see all the emails that are sent from your WordPress site.

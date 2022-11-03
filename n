@@ -61,6 +61,14 @@ case $1 in
     tail)
         tail -f html/wp-content/debug.log
         ;;
+    jncp)
+        cmd="/var/scripts/jn-cp.sh ${@:2}"
+        docker exec -it $USER_COMMAND newspack_dev $cmd
+        ;;
+    jninit)
+        cmd="/var/scripts/jn-init.sh ${@:2}"
+        docker exec -it $USER_COMMAND newspack_dev $cmd
+        ;;
     *)
         echo Unknown command
         ;;
