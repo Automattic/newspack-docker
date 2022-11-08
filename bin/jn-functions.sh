@@ -34,7 +34,7 @@ process_newspack_plugin() {
     npm run --silent release:archive > /dev/null
     echo Uploading...
     sshpass -p $password scp -o StrictHostKeyChecking=no "release/$plugin.zip" $USER@$DOMAIN:$dest_folder/
-    sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin install $plugin.zip --force"
+    sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin install $plugin.zip --force --activate"
 }
 
 process_custom_plugin() {
@@ -46,7 +46,7 @@ process_custom_plugin() {
     zip -r $plugin.zip $plugin/ > /dev/null
     echo Uploading...
     sshpass -p $password scp -o StrictHostKeyChecking=no "$plugin.zip" $USER@$DOMAIN:$dest_folder/
-    sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin install $plugin.zip --force"
+    sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin install $plugin.zip --force --activate"
     rm $plugin.zip
 }
 
