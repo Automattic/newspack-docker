@@ -7,6 +7,7 @@ fi
 
 USER="$1"
 DOMAIN="$2"
+dest_folder="/srv/users/$USER/apps/$USER/public"
 
 process_plugin() {
     
@@ -27,7 +28,6 @@ process_plugin() {
 process_newspack_plugin() {
     local plugin=$1
     local password=$2
-    local dest_folder="/srv/users/$USER/apps/$USER/public"
     
     cd /newspack-repos/$1
     echo "Creating package for $plugin"
@@ -40,7 +40,6 @@ process_newspack_plugin() {
 process_custom_plugin() {
     local plugin=$1
     local password=$2
-    local dest_folder="/srv/users/$USER/apps/$USER/public"
 
     cd /var/www/html/wp-content/plugins/
     echo "Creating package for $plugin"
@@ -49,4 +48,16 @@ process_custom_plugin() {
     sshpass -p $password scp -o StrictHostKeyChecking=no "$plugin.zip" $USER@$DOMAIN:$dest_folder/
     sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin install $plugin.zip --force"
     rm $plugin.zip
+}
+
+copy_secrets() {
+    local password=$1
+    if [ -f /var/scripts/secrets.json ]; then
+        sshpass -p $password scp -o StrictHostKeyChecking=no /var/scripts/secrets.json $USER@$DOMAIN:/tmp/
+        sshpass -p $password scp -o StrictHostKeyChecking=no /var/scripts/copy-secrets.php $USER@$DOMAIN:/tmp/
+        sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp eval-file /tmp/copy-secrets.php; rm /tmp/secrets.json; rm /tmp/copy-secrets.php"
+    else
+        echo "No secrets.json file found."
+    fi
+
 }

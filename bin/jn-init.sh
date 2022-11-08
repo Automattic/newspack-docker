@@ -7,7 +7,13 @@ read -s password
 echo
 
 echo "Uploading Newspack plugin"
-process_newspack_plugin newspack-plugin $password
+process_plugin newspack-plugin $password
 
-dest_folder="/srv/users/$USER/apps/$USER/public"
+echo "Uploading Woocommerce premium extensions"
+process_plugin woocommerce-name-your-price $password
+process_plugin woocommerce-subscriptions $password
+
 sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin activate newspack-plugin; wp newspack setup"
+
+echo "Copying secrets"
+copy_secrets $password

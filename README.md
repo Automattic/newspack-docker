@@ -118,6 +118,15 @@ n jninit user domain.jurassic.ninja
 This command Sets up a new Jurassic Ninja site. It will
 * Upload the newspack-plugin from your machine to JN
 * Run `wp newspack setup`
+* Copy your secrets to the JN site
+
+**Setting up your Secrets**
+
+If you want your secrets to be copied over to the JN site, create a `secrets.json` file inside the `bin` folder.
+
+You can copy the `secrets.json.sample` file and manually edit it, or you can use `n secrets` to output the secrets you currently have on your local site.
+
+If you want to directly copy the secrets into the file you can run `n secrets > bin/secrets.json`.
 
 ### Copy plugins to a JN Site
 ```BASH

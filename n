@@ -61,6 +61,9 @@ case $1 in
     tail)
         tail -f html/wp-content/debug.log
         ;;
+    secrets)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "wp eval-file /var/scripts/generate-secrets.php --allow-root"
+        ;;
     jncp)
         cmd="/var/scripts/jn-cp.sh ${@:2}"
         docker exec -it $USER_COMMAND newspack_dev $cmd

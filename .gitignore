@@ -3,3 +3,4 @@ repos
 logs
 html
 data
+bin/secrets.json
