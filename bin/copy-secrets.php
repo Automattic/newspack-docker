@@ -26,6 +26,7 @@ $stripe_secrets = $secrets->stripe;
 // Process stripe.
 if ( 
     method_exists( 'Newspack\Stripe_Connection', 'update_stripe_data' ) &&
+    class_exists( 'WC_Payment_Gateways' ) &&
     ! empty( $stripe_secrets ) &&
     ! empty( $stripe_secrets->testPublishableKey ) &&
     ! empty( $stripe_secrets->testSecretKey ) 

@@ -13,7 +13,7 @@ echo "Uploading Woocommerce premium extensions"
 process_plugin woocommerce-name-your-price $password
 process_plugin woocommerce-subscriptions $password
 
-sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin activate newspack-plugin; wp newspack setup"
+sshpass -p $password ssh -o StrictHostKeyChecking=no $USER@$DOMAIN "cd $dest_folder; wp plugin install woocommerce; wp plugin activate newspack-plugin woocommerce; wp newspack setup"
 
 echo "Copying secrets"
 copy_secrets $password
