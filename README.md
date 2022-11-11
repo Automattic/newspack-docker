@@ -32,6 +32,8 @@ You only need to run this the first time you set up your env.
 ./build-image.sh
 ```
 
+(You can also call `./build-image-8.sh` to build an image with PHP 8 instead of 7.4. It's a good idea to have both)
+
 ### Clone all repos
 
 This will clone all Newspack repos inside the `repos` folder
@@ -49,6 +51,8 @@ Now we are going to use the `n` script. (Tip: Create an alias in your `.bashrc` 
 n start
 ```
 
+(`n start8` will start the image with php 8 if you built it)
+
 When you are done, you can stop the containers with `n stop`.
 
 At this point you should be able to see your site in `http://localhost`.
@@ -60,7 +64,7 @@ n install
 
 #### Build the projects
 
-The first time you set up your environment you might want to build all the project. You can do this by:
+The first time you set up your environment you might want to build all the projects. You can do this by:
 
 ```BASH
 n build all
@@ -105,6 +109,14 @@ Enter the container bash
 n sh # as the apache user, if USE_CUSTOM_APACHE_USER was set in your .env
 n rsh # as root
 ```
+
+Other commands:
+
+* `n db`: Launches the MySQL interactive shell
+* `n wp`: runs any arbitraty WP CLI command. e.g. `n wp option get blogname`
+* `n tail`: Tails the apache error log file
+* `n uninstall`: Uninstalls WordPress
+* `jncp`, `jninit` & `secrets`: See Jurassic Ninja section below.
 
 ## Jurassic Ninja
 
