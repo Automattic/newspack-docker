@@ -143,6 +143,12 @@ Mailhog is running by default so you can see all the emails that are sent from y
 
 Visit http://localhost:8025 to see it.
 
+## Adminer
+
+Adminer is available at http://localhost:8088
+
+Connect to Server `db`, user `root` and password defined in your local `.env` file.
+
 ## Memcached
 
 By default, Memcached plugin is enabled. If you want to disable it, simply delete the `html/wp-content/object-cache.php` file.
