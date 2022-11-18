@@ -55,3 +55,7 @@ fi
 if [ ! -f /var/www/html/.htaccess ]; then
 	cp /var/lib/jetpack-config/htaccess /var/www/html/.htaccess
 fi
+
+# MU Plugin
+mkdir -p /var/www/html/wp-content/mu-plugins
+cp /var/scripts/newspack-docker-mu.php /var/www/html/wp-content/mu-plugins
