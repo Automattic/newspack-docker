@@ -75,7 +75,6 @@ if [ 80 -eq "$HOST_PORT" ]; then
 fi
 
 chmod +x /var/scripts/*
-/var/scripts/run-extras.sh
 /var/scripts/link-repos.sh
 
 # Memcached
