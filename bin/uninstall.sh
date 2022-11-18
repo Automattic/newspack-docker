@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Flush cache to make sure memcached does not hold anything
+wp --allow-root cache flush
+
 # Empty DB
 wp --allow-root db reset --yes
 
