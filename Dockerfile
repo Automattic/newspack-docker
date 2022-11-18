@@ -70,6 +70,7 @@ RUN \
 		php${PHP_VERSION}-xsl \
 		php${PHP_VERSION}-zip \
 		php${PHP_VERSION}-memcache \
+	php${PHP_VERSION}-pcov \
 		phpunit \
 	&& apt-get install -y --no-install-recommends \
 		php${PHP_VERSION}-apcu \
