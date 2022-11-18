@@ -30,6 +30,8 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	wp --allow-root config set WP_DEBUG_LOG true --raw --type=constant
 	wp --allow-root config set WP_DEBUG_DISPLAY false --raw --type=constant
 	wp --allow-root config set SCRIPT_DEBUG true --raw --type=constant
+	wp --allow-root config set WP_AUTO_UPDATE_CORE true --raw --type=constant
+	wp --allow-root config set AUTOMATIC_UPDATER_DISABLED true --raw --type=constant
 
 	# Respecting Dockerfile-forwarded environment variables
 	# Allow to be reverse-proxied from https
