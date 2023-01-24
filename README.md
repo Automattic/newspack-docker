@@ -93,8 +93,9 @@ n watch newsletters
 Run tests:
 
 ```BASH
-n test-php plugin
 n test-js plugin
+n test-php plugin
+n test-php plugin --filter=some_filter
 ```
 
 Run WP CLI interactive shell
