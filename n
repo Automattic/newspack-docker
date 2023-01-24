@@ -58,6 +58,9 @@ case $1 in
     test-js)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/test-js.sh $2"
         ;;
+    composer)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/composer.sh $2 ${@:3}"
+        ;;
     db)
         docker exec -it $USER_COMMAND newspack_dev sh -c "wp db cli --allow-root"
         ;;

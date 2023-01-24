@@ -111,6 +111,13 @@ n sh # as the apache user, if USE_CUSTOM_APACHE_USER was set in your .env
 n rsh # as root
 ```
 
+Run composer commands inside one of the projects
+
+```BASH
+n composer plugin dump-autoload # Runs `composer dump-autload` inside the newspack-plugin repo
+n composer theme update # Runs `composer update` inside the newspack-theme repo
+```
+
 Other commands:
 
 * `n db`: Launches the MySQL interactive shell
