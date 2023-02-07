@@ -126,6 +126,9 @@ Other commands:
 * `n uninstall`: Uninstalls WordPress
 * `jncp`, `jninit` & `secrets`: See Jurassic Ninja section below.
 * `n secrets-import`: Import all your secrets from a `secrets.json` file (see details on the Jurassic Ninha section below)
+* `n snapshot $name`: Creates a snapshot of the current site and gives it a name
+* `n snapshot-load $name`: Drops the current site and override it with the data from a snapshot
+* `n new-site`: Drops the current site and creates a new one from scratch
 
 ## Jurassic Ninja
 

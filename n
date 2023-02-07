@@ -46,6 +46,9 @@ case $1 in
     uninstall)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/uninstall.sh"
         ;;
+    new-site)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/new-site.sh"
+        ;;
     build)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/build-repos.sh $2"
         ;;
@@ -71,7 +74,13 @@ case $1 in
         docker exec -it $USER_COMMAND newspack_dev sh -c "wp eval-file /var/scripts/generate-secrets.php --allow-root"
         ;;
     secrets-import)
-        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/import-secrets.sh --allow-root"
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/import-secrets.sh"
+        ;;
+    snapshot)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/snapshot-create.sh $2"
+        ;;
+    snapshot-load)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/snapshot-load.sh $2"
         ;;
     jncp)
         cmd="/var/scripts/jn-cp.sh ${@:2}"
