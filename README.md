@@ -125,6 +125,7 @@ Other commands:
 * `n tail`: Tails the apache error log file
 * `n uninstall`: Uninstalls WordPress
 * `jncp`, `jninit` & `secrets`: See Jurassic Ninja section below.
+* `n secrets-import`: Import all your secrets from a `secrets.json` file (see details on the Jurassic Ninha section below)
 
 ## Jurassic Ninja
 

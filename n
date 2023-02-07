@@ -70,6 +70,9 @@ case $1 in
     secrets)
         docker exec -it $USER_COMMAND newspack_dev sh -c "wp eval-file /var/scripts/generate-secrets.php --allow-root"
         ;;
+    secrets-import)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/import-secrets.sh --allow-root"
+        ;;
     jncp)
         cmd="/var/scripts/jn-cp.sh ${@:2}"
         docker exec -it $USER_COMMAND newspack_dev $cmd
