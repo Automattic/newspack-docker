@@ -1,5 +1,5 @@
 # newspack-docker
-Nespack helper Repository  for running local environments using Docker
+Newspack helper Repository for running local environments using Docker.
 
 The main idea is to have all the dependecies we need to run the projects, and its tests, inside the container so we don't depend on anything in our local machine.
 ## Getting started
