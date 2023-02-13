@@ -129,6 +129,7 @@ Other commands:
 * `n snapshot $name`: Creates a snapshot of the current site and gives it a name
 * `n snapshot-load $name`: Drops the current site and override it with the data from a snapshot
 * `n new-site`: Drops the current site and creates a new one from scratch
+* `n pull`: Pull every git repository inside `repos/`
 
 ## Jurassic Ninja
 
