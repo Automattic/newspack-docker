@@ -35,7 +35,7 @@ services:
     container_name: newspack_dev
     depends_on:
       - db
-    image: newspack-dev-8:latest
+    image: newspack-dev-81:latest
     volumes:
       ## WordPress and its plugins and themes should be defined in volumeMappings in jetpack-docker-config-default.yml or jetpack-docker-config.yml, not here!
       ## That avoids having to define them both here and in the "sftp" service.
