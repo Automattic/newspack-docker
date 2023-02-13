@@ -90,6 +90,16 @@ case $1 in
         cmd="/var/scripts/jn-init.sh ${@:2}"
         docker exec -it $USER_COMMAND newspack_dev $cmd
         ;;
+    pull)
+        for dir in repos/*/; do
+        cd "$dir"
+        if [ -d ".git" ]; then
+            echo "Updating repository: $dir"
+            git pull
+        fi
+        cd ..
+        done
+        ;;
     *)
         echo Unknown command
         ;;
