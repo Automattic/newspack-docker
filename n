@@ -16,13 +16,14 @@ fi
 
 case $1 in
     start)
-        docker-compose up -d
-        ;;
-    start8)
-        docker-compose -f docker-compose-8.yml up -d
-        ;;
-    start81)
-        docker-compose -f docker-compose-81.yml up -d
+        file="docker-compose.yml"
+        if [ "$2" == "8" ]; then
+            file="docker-compose-8.yml"
+        fi
+        if [ "$2" == "7.4" ]; then
+            file="docker-compose-74.yml"
+        fi
+        docker-compose -f $file up -d
         ;;
     stop)
         docker-compose down
@@ -104,4 +105,3 @@ case $1 in
         echo Unknown command
         ;;
 esac
-

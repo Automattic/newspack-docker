@@ -32,7 +32,7 @@ You only need to run this the first time you set up your env.
 ./build-image.sh
 ```
 
-(You can also call `./build-image-8.sh` or `./build-image-81.sh` to build an image with PHP 8.0 or 8.1 instead of 7.4. It's a good idea to have both)
+The default builds using PHP 8.1. You can also call `./build-image-7.4.sh` or `./build-image-8.sh` to build an image with PHP 7.4 or 8.0. It's a good idea to have both.
 
 ### Clone all repos
 
@@ -51,7 +51,7 @@ Now we are going to use the `n` script. (Tip: Create an alias in your `.bashrc` 
 n start
 ```
 
-(`n start8` or `n start81` will start the image with php 8.0 or 8.1 if you built them)
+(`n start 8` or `n start 7.4` will start the image with php 8.0 or 7.4 if you built them)
 
 When you are done, you can stop the containers with `n stop`.
 
