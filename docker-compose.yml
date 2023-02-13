@@ -60,10 +60,10 @@ services:
     image: mailhog/mailhog:latest
     restart: always
     ports:
-      - 1025
-      - 8025
+      - 1025:1025
+      - 8025:8025
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8080
+      - 8088:8080
