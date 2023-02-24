@@ -47,6 +47,15 @@ case $1 in
     uninstall)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/uninstall.sh"
         ;;
+    install-manager)
+        docker exec -it $USER_COMMAND manager_client sh -c "/var/scripts/install.sh"
+        ;;
+    uninstall-manager)
+        docker exec -it $USER_COMMAND manager_client sh -c "/var/scripts/uninstall.sh"
+        ;;
+    setup-manager)
+        docker exec -it $USER_COMMAND manager_client sh -c "/var/scripts/setup-manager.sh"
+        ;;
     new-site)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/new-site.sh"
         ;;

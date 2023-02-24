@@ -2,6 +2,9 @@
 repos
 logs
 html
+manager-html
 data
 bin/secrets.json
 snapshots
+bin/manager.private.key
+bin/manager.public.key

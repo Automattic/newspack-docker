@@ -40,15 +40,12 @@ services:
       ## WordPress and its plugins and themes should be defined in volumeMappings in jetpack-docker-config-default.yml or jetpack-docker-config.yml, not here!
       ## That avoids having to define them both here and in the "sftp" service.
       - dockerdirectory:/usr/local/src/jetpack-monorepo/tools/docker
-      # - ./wordpress-develop:/tmp/wordpress-develop
       - ./logs/newspack-dev/apache2/:/var/log/apache2
       - ./logs/newspack-dev/php:/var/log/php
       - ./bin:/var/scripts
       - ./repos:/newspack-repos
       - ./html:/var/www/html
       - ./snapshots:/snapshots
-    ports:
-      - '${PORT_WORDPRESS:-80}:80'
     env_file:
       - default.env
       - .env
@@ -56,6 +53,30 @@ services:
       - HOST_PORT=${PORT_WORDPRESS:-80}
      # - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
       - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
+    restart: always
+  manager-client:
+    container_name: manager_client
+    depends_on:
+      - db
+    image: newspack-dev-8:latest
+    volumes:
+      # WordPress and its plugins and themes should be defined in volumeMappings in jetpack-docker-config-default.yml or jetpack-docker-config.yml, not here!
+      # That avoids having to define them both here and in the "sftp" service.
+      - dockerdirectory:/usr/local/src/jetpack-monorepo/tools/docker
+      - ./logs/newspack-manager/apache2/:/var/log/apache2
+      - ./logs/newspack-manager/php:/var/log/php
+      - ./bin:/var/scripts
+      - ./repos:/newspack-repos
+      - ./manager-html:/var/www/html
+    env_file:
+      - default.env
+      - .env
+      - manager.env
+    environment:
+      - HOST_PORT=${PORT_WORDPRESS:-80}
+     # - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
+      - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
+    restart: always
   mailhog:
     image: mailhog/mailhog:latest
     restart: always
@@ -67,3 +88,12 @@ services:
     restart: always
     ports:
       - 8088:8080
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+    privileged: true
