@@ -177,3 +177,36 @@ Connect to Server `db`, user `root` and password defined in your local `.env` fi
 ## Memcached
 
 By default, Memcached plugin is enabled. If you want to disable it, simply delete the `html/wp-content/object-cache.php` file.
+
+## Newspack Manager
+
+This Docker environment will launch two sites by default. One is the site you will be working on to develop all plugins, and the other is the one that will run the Newspack Manager Client.
+
+In order to be able to access the Newspack Manager site, there are a few additional steps:
+
+Install WordPress into the manager container
+```BASH
+n install-manager
+```
+
+Setup the manager by creating the key pairs, adding the constants to both sites and activate the plugins. All this is done by:
+```BASH
+n setup-manager
+```
+
+Configure the `manager.local` domain to point to your localhost by adding it to the `hosts` file.
+
+In your favorite text editor, open the `/etc/hosts` file and add a line with `127.0.0.1 manager.local`. Or run the following command:
+```BASH
+echo "127.0.0.1 manager.local" | sudo tee -a /etc/hosts
+```
+
+If you haven't done it yet, build the Manager Client plugin:
+```BASH
+n build manager-client
+```
+(Note that you can also use `watch` here while developing)
+
+That's it!
+
+Now visit `manager.local/wp-admin`, go to Newspack Manager, and add the URL for you other site there.

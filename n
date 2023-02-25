@@ -54,7 +54,11 @@ case $1 in
         docker exec -it $USER_COMMAND manager_client sh -c "/var/scripts/uninstall.sh"
         ;;
     setup-manager)
-        docker exec -it $USER_COMMAND manager_client sh -c "/var/scripts/setup-manager.sh"
+        docker exec -it $USER_COMMAND manager_client sh -c "cd /var/scripts && php generate-manager-key-pair.php"
+        docker exec -it $USER_COMMAND manager_client sh -c "/var/scripts/setup-manager.sh private"
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/setup-manager.sh public"
+        docker exec -it $USER_COMMAND manager_client sh -c "wp --allow-root plugin activate newspack-manager-client"
+        docker exec -it $USER_COMMAND newspack_dev sh -c "wp --allow-root plugin activate newspack-manager"
         ;;
     new-site)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/new-site.sh"
