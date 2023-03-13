@@ -5,3 +5,6 @@ html
 data
 bin/secrets.json
 snapshots
+manager-html
+bin/manager.private.key
+bin/manager.public.key

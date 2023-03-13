@@ -44,6 +44,13 @@ case $1 in
     install)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install.sh"
         ;;
+    inatall-manager)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install-manager.sh"
+        ;;
+    setup-manager)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/init-wp-manager.sh"
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/setup-manager.sh"
+        ;;
     uninstall)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/uninstall.sh"
         ;;

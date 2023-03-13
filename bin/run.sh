@@ -15,9 +15,11 @@ if [ $user != 'www-data' ];
 	then
 	echo Switching to user $user
 	su -c "/var/scripts/init-wp.sh" -m $user
+	su -c "/var/scripts/init-wp-manager.sh" -m $user
 else
 	echo Running as default user $user
 	/var/scripts/init-wp.sh
+	/var/scripts/init-wp-manager.sh
 fi
 
 # Clean up old method of including psysh (used from 2019 until 2021)

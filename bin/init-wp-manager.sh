@@ -1,11 +1,14 @@
 #!/bin/bash
 
+mkdir -p /var/www/manager-html
+cd /var/www/manager-html
+
 # Download WordPress
-[ -f /var/www/html/xmlrpc.php ] || wp --allow-root core download
+[ -f /var/www/manager-html/xmlrpc.php ] || wp --allow-root core download
 
 # Configure WordPress
-if [ ! -f /var/www/html/wp-config.php ]; then
-	echo "Creating wp-config.php ..."
+if [ ! -f /var/www/manager-html/wp-config.php ]; then
+	echo "Creating Manager wp-config.php ..."
 	# Loop until wp cli exits with 0
 	# because if running the containers for the first time,
 	# the mysql container will reject connections until it has set the database data
@@ -32,29 +35,13 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	wp --allow-root config set SCRIPT_DEBUG true --raw --type=constant
 	wp --allow-root config set WP_AUTO_UPDATE_CORE true --raw --type=constant
 	wp --allow-root config set AUTOMATIC_UPDATER_DISABLED true --raw --type=constant
-	wp --allow-root config set table_prefix ${TABLE_PREFIX}
+	wp --allow-root config set table_prefix mngr_
 
-	# Respecting Dockerfile-forwarded environment variables
-	# Allow to be reverse-proxied from https
-	wp --allow-root config set "_SERVER['HTTPS']" "isset( \$_SERVER['HTTP_X_FORWARDED_PROTO'] ) && \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : NULL" \
-		--raw \
-		--type=variable
-
-	# Allow this installation to run on http or https.
-	wp --allow-root config set DOCKER_REQUEST_URL \
-		"( ! empty( \$_SERVER['HTTPS'] ) ? 'https://' : 'http://' ) . ( ! empty( \$_SERVER['HTTP_HOST'] ) ? \$_SERVER['HTTP_HOST'] : 'localhost' )" \
-		--raw \
-		--type=constant
-	wp --allow-root config set WP_SITEURL "DOCKER_REQUEST_URL" --raw --type=constant
-	wp --allow-root config set WP_HOME "DOCKER_REQUEST_URL" --raw --type=constant
-
-	# Tell WP-CONFIG we're in a docker instance.
-	wp --allow-root config set JETPACK_DOCKER_ENV true --raw --type=constant
 fi
 
 # Copy single site htaccess if none is present
-if [ ! -f /var/www/html/.htaccess ]; then
-	cp /var/lib/jetpack-config/htaccess /var/www/html/.htaccess
+if [ ! -f /var/www/manager-html/.htaccess ]; then
+	cp /var/lib/jetpack-config/htaccess /var/www/manager-html/.htaccess
 fi
 
 # MU Plugin

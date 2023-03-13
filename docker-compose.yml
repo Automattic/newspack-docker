@@ -46,6 +46,7 @@ services:
       - ./bin:/var/scripts
       - ./repos:/newspack-repos
       - ./html:/var/www/html
+      - ./manager-html:/var/www/manager-html
       - ./snapshots:/snapshots
     ports:
       - '${PORT_WORDPRESS:-80}:80'

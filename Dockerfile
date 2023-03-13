@@ -115,6 +115,8 @@ RUN mkdir /usr/local/src/psysh \
 
 # Copy a default config file for an apache host.
 COPY ./config/apache_default /etc/apache2/sites-available/000-default.conf
+COPY ./config/apache_manager /etc/apache2/sites-available/001-manager.conf
+RUN a2ensite 001-manager.conf
 
 # Copy a default set of settings for PHP (php.ini).
 COPY ./config/php.ini /etc/php/${PHP_VERSION}/apache2/conf.d/20-jetpack-wordpress.ini
