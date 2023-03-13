@@ -13,3 +13,19 @@ add_filter(
 		return $types;
 	}
 );
+
+/**
+ * Disable SSL for local WP development
+ *
+ * Plugin Name: Disable SSL for local WP development
+ * Description: Disable SSL for local WP development
+ */
+
+ add_filter(
+	'http_request_args',
+	function( $r ) {
+		$r['sslverify']          = false;
+		$r['reject_unsafe_urls'] = false;
+		return $r;
+	}
+);

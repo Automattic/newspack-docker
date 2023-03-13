@@ -45,5 +45,5 @@ if [ ! -f /var/www/manager-html/.htaccess ]; then
 fi
 
 # MU Plugin
-mkdir -p /var/www/html/wp-content/mu-plugins
-cp /var/scripts/newspack-docker-mu.php /var/www/html/wp-content/mu-plugins
+mkdir -p /var/www/manager-html/wp-content/mu-plugins
+cp /var/scripts/newspack-docker-mu.php /var/www/manager-html/wp-content/mu-plugins
