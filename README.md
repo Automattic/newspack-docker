@@ -7,7 +7,7 @@ The main idea is to have all the dependecies we need to run the projects, and it
 ### Clone this repository
 
 ```BASH
-git clone https://github.com/leogermani/newspack-docker.git
+git clone https://github.com/Automattic/newspack-docker.git
 ```
 
 ### Set up your local vars
