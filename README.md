@@ -205,3 +205,16 @@ n build manager-client
 That's it!
 
 Now visit `manager.local/wp-admin`, go to Newspack Manager, and add the URL for you other site there.
+
+### Note about the site domain when running CLI commands
+
+By default, the docker environment provides a dynamic site url, so you can access the site either via localhost or a tunneled domain, required for some actions. This is useful because it allows you to run your site without the tunnel when you don't need it.
+
+Because of that, when running commands via CLI, the returned site url is localhost. This will create issues when communicating with the manager, as the keys are tied to the site domain.
+
+Use the NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE to override the site url for CLI commands.
+
+In your dev site (not the manager.local instance), add the following
+```
+define( 'NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE', 'https://my-domain.my-tunnel.com' );
+```
