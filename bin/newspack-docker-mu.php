@@ -38,11 +38,15 @@ add_filter(
  * Because of that, when running commands via CLI, the returned site url is localhost.
  * Use the NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE to override the site url for CLI commands.
  */
-add_filter( 'home_url', 'newspack_docker_mu_site_url_cli', 10 );
-add_filter( 'site_url', 'newspack_docker_mu_site_url_cli', 10 );
-function newspack_docker_mu_site_url_cli( $url ) {
+add_filter( 'home_url', 'newspack_docker_mu_site_url_cli', 10, 2 );
+add_filter( 'site_url', 'newspack_docker_mu_site_url_cli', 10, 2 );
+function newspack_docker_mu_site_url_cli( $url, $path ) {
 	if ( defined( 'WP_CLI' ) && WP_CLI && defined('NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE') ) {
-		return NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE;
+		$url = NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE;
+		if ( $path && is_string( $path ) ) {
+			$url .= '/' . ltrim( $path, '/' );
+		}
+		return $url;
 	}
 	return $url;
 }
