@@ -6,12 +6,13 @@
 	# match this virtual host. For the default virtual host (this file) this
 	# value is not decisive as it is used as a last resort host regardless.
 	# However, you must set it for any further virtual host explicitly.
-	ServerName localhost
+	
+    ServerName manager.local
 
 	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/html
+	DocumentRoot /var/www/manager-html
 
-		<Directory /var/www/html>
+		<Directory /var/www/manager-html>
 				AllowOverride All
 				Require all granted
 		</Directory>
@@ -22,8 +23,8 @@
 	# modules, e.g.
 	#LogLevel info ssl:warn
 
-		# ErrorLog /var/log/apache-errors.log
-		# CustomLog /var/log/apache-access.log combined
+	ErrorLog /var/log/apache-manager-errors.log
+	CustomLog /var/log/apache-manager-access.log combined
 
 	# For most configuration files from conf-available/, which are
 	# enabled or disabled at a global level, it is possible to

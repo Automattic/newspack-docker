@@ -34,3 +34,11 @@ do :
 		ln -s "$CODE_PATH/newspack-theme/$dir" "$link"
 	fi
 done
+
+link="/var/www/manager-html/wp-content/plugins/newspack-manager-client"
+if [ -L "${link}" ]; then
+	echo "newspack-manager-client already symlinked"
+else
+	echo "Symlinking newspack-manager-client"
+	ln -s "$CODE_PATH/newspack-manager-client" "$link"
+fi
