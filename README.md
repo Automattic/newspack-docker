@@ -82,20 +82,21 @@ n build newspack-plugin # Builds the main plugin
 n build newsletters # You can also omit the 'newspack-' prefix from plugins
 ```
 
-Watch projects:
+Watch and run tests on projects:
+
+These commands will automatically run in the repo folder you are currently in
 
 ```BASH
-n watch theme
-n watch newspack-plugin
-n watch newsletters
+n watch # Runs npm watch on the project you are currently in
+n test-php # Runs phpunit tests on the project you are currently in
+n test-js # Runs js tests on the project you are currently in
 ```
 
-Run tests:
+Run composer commands inside one of the projects
 
 ```BASH
-n test-js plugin
-n test-php plugin
-n test-php plugin --filter=some_filter
+n composer dump-autoload # Runs `composer dump-autload` inside the current repo
+n composer update # Runs `composer update` inside the current repo
 ```
 
 Run WP CLI interactive shell
@@ -109,13 +110,6 @@ Enter the container bash
 ```BASH
 n sh # as the apache user, if USE_CUSTOM_APACHE_USER was set in your .env
 n rsh # as root
-```
-
-Run composer commands inside one of the projects
-
-```BASH
-n composer plugin dump-autoload # Runs `composer dump-autload` inside the newspack-plugin repo
-n composer theme update # Runs `composer update` inside the newspack-theme repo
 ```
 
 Other commands:
