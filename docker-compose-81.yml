@@ -32,6 +32,7 @@ services:
   ##  - The docker/logs/php directory so we can access PHP log files directly from the host file system
   ##  - The docker/bin directory for provisioning scripts
   wordpress:
+    platform: linux/amd64
     container_name: newspack_dev
     depends_on:
       - db
@@ -57,7 +58,7 @@ services:
      # - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
       - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
   mailhog:
-    image: mailhog/mailhog:latest
+    image: arjenz/mailhog:latest
     restart: always
     ports:
       - 1025:1025
