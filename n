@@ -1,6 +1,6 @@
 #!/bin/bash
 
-target_folder=$(pwd | grep -oP 'repos/\K[^/]+')
+target_folder=$(pwd | sed -n 's#^.*repos/\([^/]*\).*#\1#p')
 
 cd "$(dirname "$0")"
 source .env
