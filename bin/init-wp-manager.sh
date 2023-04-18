@@ -1,6 +1,5 @@
 #!/bin/bash
 
-mkdir -p /var/www/manager-html
 cd /var/www/manager-html
 
 # Download WordPress

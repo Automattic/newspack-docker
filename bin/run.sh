@@ -5,11 +5,14 @@ set -e
 # These commands will be run each time the container is run.
 #
 # If you modify anything here, remember to build the image again by running:
-# jetpack docker build-image
+# build-image
 
 user="${APACHE_RUN_USER:-www-data}"
 
 chmod +x /var/scripts/init-wp.sh
+
+mkdir -p /var/www/manager-html
+chown $user:$user /var/www/manager-html
 
 if [ $user != 'www-data' ];
 	then
