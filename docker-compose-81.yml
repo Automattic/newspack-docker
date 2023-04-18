@@ -32,8 +32,8 @@ services:
   ##  - The docker/logs/php directory so we can access PHP log files directly from the host file system
   ##  - The docker/bin directory for provisioning scripts
   wordpress:
-    platform: linux/amd64
     container_name: newspack_dev
+    platform: linux/amd64
     depends_on:
       - db
     image: newspack-dev-81:latest
