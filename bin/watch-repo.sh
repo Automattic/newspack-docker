@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source repos.sh
 CODE_PATH="/newspack-repos"
 
 if [ $# -eq 0 ]; then
