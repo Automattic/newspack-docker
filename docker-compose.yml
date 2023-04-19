@@ -33,6 +33,7 @@ services:
   ##  - The docker/bin directory for provisioning scripts
   wordpress:
     container_name: newspack_dev
+    platform: linux/amd64
     depends_on:
       - db
     image: newspack-dev-8:latest
@@ -58,7 +59,7 @@ services:
      # - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
       - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
   mailhog:
-    image: mailhog/mailhog:latest
+    image: arjenz/mailhog:latest
     restart: always
     ports:
       - 1025:1025
