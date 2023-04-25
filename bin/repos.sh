@@ -11,6 +11,7 @@ newspack_plugins=(
 	"newspack-manager-client"
 	"newspack-sponsors"
 	"super-cool-ad-inserter-plugin"
+	"newspack-multibranded-site"
 )
 
 newspack_themes=(
