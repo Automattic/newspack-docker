@@ -32,7 +32,7 @@ You only need to run this the first time you set up your env.
 ./build-image.sh
 ```
 
-The default builds using PHP 8.1. You can also call `./build-image-7.4.sh` or `./build-image-8.sh` to build an image with PHP 7.4 or 8.0. It's a good idea to have both.
+The default builds using PHP 8. You can also call `./build-image-7.4.sh` or `./build-image-81.sh` to build an image with PHP 7.4 or 8.0. It's a good idea to have both.
 
 ### Clone all repos
 
