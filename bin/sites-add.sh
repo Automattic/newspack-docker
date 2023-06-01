@@ -20,8 +20,8 @@ for name in "${names[@]}"; do
         mysqladmin create $name -u root -p$MYSQL_ROOT_PASSWORD -h db
         mysql -u root -p$MYSQL_ROOT_PASSWORD -h db -e "GRANT ALL PRIVILEGES ON $name.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
-        /var/scripts/init-additional-site.sh $name
-        /var/scripts/reset-site.sh "/var/www/additional-sites-html/$name"
+        su -c "/var/scripts/init-additional-site.sh $name" -m $user
+        su -c "/var/scripts/reset-site.sh /var/www/additional-sites-html/$name" -m $user
         
         echo
         echo "Site $name created!. Open additional-sites.local/${name}"

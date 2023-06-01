@@ -18,7 +18,7 @@ if [ ! -f "/var/www/additional-sites-html/$SITE_NAME/wp-config.php" ]; then
 	i=1
 	while [ "$i" -le "$times" ]; do
 		sleep 3
-		wp --allow-root config create \
+		wp config create \
 			--dbhost=${MYSQL_HOST} \
 			--dbname=${SITE_NAME} \
 			--dbuser=${MYSQL_USER} \
@@ -30,12 +30,13 @@ if [ ! -f "/var/www/additional-sites-html/$SITE_NAME/wp-config.php" ]; then
 	done
 
 	echo "Setting other wp-config.php constants..."
-	wp --allow-root config set WP_DEBUG true --raw --type=constant
-	wp --allow-root config set WP_DEBUG_LOG true --raw --type=constant
-	wp --allow-root config set WP_DEBUG_DISPLAY false --raw --type=constant
-	wp --allow-root config set SCRIPT_DEBUG true --raw --type=constant
-	wp --allow-root config set WP_AUTO_UPDATE_CORE true --raw --type=constant
-	wp --allow-root config set AUTOMATIC_UPDATER_DISABLED true --raw --type=constant
+	wp config set WP_DEBUG true --raw --type=constant
+	wp config set WP_DEBUG_LOG true --raw --type=constant
+	wp config set WP_DEBUG_DISPLAY false --raw --type=constant
+	wp config set SCRIPT_DEBUG true --raw --type=constant
+	wp config set WP_AUTO_UPDATE_CORE true --raw --type=constant
+	wp config set AUTOMATIC_UPDATER_DISABLED true --raw --type=constant
+	wp config set WP_ENVIRONMENT_TYPE local --type=constant
 
 fi
 
