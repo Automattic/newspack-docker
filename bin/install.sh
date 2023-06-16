@@ -1,6 +1,15 @@
 #!/bin/bash
 
-if wp --allow-root core is-installed; then
+WP_PATH=${1:-"/var/www/html"}
+DOMAIN_TO_INSTALL=$WP_DOMAIN
+SITE_TITLE=$WP_TITLE
+
+if [[ "$WP_PATH" == *"additional-sites-html"* ]]; then
+    SITE_TITLE=$(echo $WP_PATH | sed -e 's/.*additional-sites-html\///' | cut -d'/' -f1)
+    DOMAIN_TO_INSTALL="additional-sites.local/$SITE_TITLE"
+fi
+
+if wp --allow-root --path=$WP_PATH core is-installed; then
 	echo
 	echo "WordPress has already been installed. Uninstall it first by running:"
 	echo
@@ -10,35 +19,14 @@ if wp --allow-root core is-installed; then
 fi
 
 # Install WP core
-wp --allow-root core install \
-	--url=${WP_DOMAIN} \
-	--title="${WP_TITLE}" \
+wp --allow-root --path=$WP_PATH core install \
+	--url=${DOMAIN_TO_INSTALL} \
+	--title="${SITE_TITLE}" \
 	--admin_user=${WP_ADMIN_USER} \
 	--admin_password=${WP_ADMIN_PASSWORD} \
 	--admin_email=${WP_ADMIN_EMAIL} \
 	--skip-email
 
-# Discourage search engines from indexing. Can be changed via UI in Settings->Reading.
-# wp --allow-root option update blog_public 0
-
-# if [ "$COMPOSE_PROJECT_NAME" == "jetpack_dev" ] ; then
-# 	# Install Query Monitor plugin
-# 	# https://wordpress.org/plugins/query-monitor/
-# 	wp --allow-root plugin install query-monitor --activate
-
-# 	# Install Core Control plugin
-# 	# https://wordpress.org/plugins/core-control/
-# 	wp --allow-root plugin install core-control --activate
-
-# 	# Install WP-Control
-# 	# https://wordpress.org/plugins/wp-crontrol/
-# 	wp --allow-root plugin install wp-crontrol --activate
-
-# 	# Install Gutenberg
-# 	# https://wordpress.org/plugins/gutenberg/
-# 	wp --allow-root plugin install gutenberg --activate
-# fi
-
 echo
-echo "WordPress installed. Open ${WP_DOMAIN}"
+echo "WordPress installed. Open ${DOMAIN_TO_INSTALL}"
 echo

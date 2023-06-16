@@ -48,6 +48,7 @@ services:
       - ./repos:/newspack-repos
       - ./html:/var/www/html
       - ./manager-html:/var/www/manager-html
+      - ./additional-sites-html:/var/www/additional-sites-html
       - ./snapshots:/snapshots
     ports:
       - '${PORT_WORDPRESS:-80}:80'

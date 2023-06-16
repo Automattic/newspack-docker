@@ -32,7 +32,7 @@ You only need to run this the first time you set up your env.
 ./build-image.sh
 ```
 
-The default builds using PHP 8.1. You can also call `./build-image-7.4.sh` or `./build-image-8.sh` to build an image with PHP 7.4 or 8.0. It's a good idea to have both.
+The default builds using PHP 8. You can also call `./build-image-7.4.sh` or `./build-image-81.sh` to build an image with PHP 7.4 or 8.0. It's a good idea to have both.
 
 ### Clone all repos
 
@@ -51,7 +51,7 @@ Now we are going to use the `n` script. (Tip: Create an alias in your `.bashrc` 
 n start
 ```
 
-(`n start 8` or `n start 7.4` will start the image with php 8.0 or 7.4 if you built them)
+(`n start 8.1` or `n start 7.4` will start the image with php 8.1 or 7.4 if you built them)
 
 When you are done, you can stop the containers with `n stop`.
 
@@ -122,8 +122,9 @@ Other commands:
 * `n secrets-import`: Import all your secrets from a `secrets.json` file (see details on the Jurassic Ninha section below)
 * `n snapshot $name`: Creates a snapshot of the current site and gives it a name
 * `n snapshot-load $name`: Drops the current site and override it with the data from a snapshot
-* `n new-site`: Drops the current site and creates a new one from scratch
+* `n reset-site`: Drops the current site and creates a new one from scratch
 * `n pull`: Pull every git repository inside `repos/`
+* `sites-add`, `sites-drop`, `sites-list`: See Additional Sites section below
 
 ## Jurassic Ninja
 
@@ -212,3 +213,29 @@ In your dev site (not the manager.local instance), add the following
 ```
 define( 'NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE', 'https://my-domain.my-tunnel.com' );
 ```
+
+## Additional Sites
+
+If you need to run a couple of additional sites, we got you covered.
+
+You can have a number of additional sites running under `additional-sites.local`. They will live in subfolder of this local domain. For example; `additional-sites.local/site1`, `additional-sites.local/site2`, etc.
+
+`n sites-add` will launch a new site in the next available spot. The site will come with Newpack already initialized and all the plugins linked. Your secrets will also be copied. It's basically the same result as running `n reset-site` for your main site.
+
+Preparation: Configure the `additional-sites.local` domain to point to your localhost by adding it to the `hosts` file.
+
+In your favorite text editor, open the `/etc/hosts` file and add a line with `127.0.0.1 additional-sites.local`. Or run the following command:
+```BASH
+echo "127.0.0.1 additional-sites.local" | sudo tee -a /etc/hosts
+```
+
+Visit `http://additional-sites.local` and you'll see a list of the existing sites and handy links to access them.
+
+* `n sites-list` - Lists the current existing sites
+* `n sites-drop $sitename` - Will completely erase the site and its database
+
+### Interacting with the sites via command line
+
+You can use the same `n` commands to interact with these sites. If you run the `n` script from inside a site's folder, it will interact with this specific site. If run it from anywhere else, it will interact with the main site.
+
+The sites live under `additional-sites-html` folder. `cd` into one of the sites folder to interact with them.

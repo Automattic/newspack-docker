@@ -4,8 +4,13 @@ source /var/scripts/repos.sh
 
 set -e
 
+WP_PATH=$1
+# if WP_PATH is empty, use default
+if [ -z "$WP_PATH" ]; then
+	WP_PATH="/var/www/html/wp-content"
+fi
+
 CODE_PATH="/newspack-repos"
-WP_PATH="/var/www/html/wp-content"
 
 if [ ! -d "${WP_PATH}" ]; then
 	echo "$WP_PATH directory does not exist"
