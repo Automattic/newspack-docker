@@ -12,8 +12,7 @@ newspack_plugins=(
 	"newspack-sponsors"
 	"super-cool-ad-inserter-plugin"
 	"newspack-multibranded-site"
-	"newspack-network-hub"
-	"newspack-network-node"
+	"newspack-network"
 )
 
 newspack_themes=(
