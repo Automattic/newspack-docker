@@ -23,3 +23,7 @@ newspack_themes=(
 	"newspack-sacha"
 	"newspack-scott"
 )
+
+newspack_block_theme=(
+	"newspack-theme"
+)
