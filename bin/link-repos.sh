@@ -40,6 +40,17 @@ do :
 	fi
 done
 
+for dir in "${newspack_block_theme[@]}"
+do :
+	link="$WP_PATH/themes/$dir"
+	if [ -L "${link}" ]; then
+		echo "$dir already symlinked"
+	else
+		echo "Symlinking $dir"
+		ln -s "$CODE_PATH/$dir" "$link"
+	fi
+done
+
 link="/var/www/manager-html/wp-content/plugins/newspack-manager-client"
 if [ -L "${link}" ]; then
 	echo "newspack-manager-client already symlinked"
