@@ -4,3 +4,9 @@ wordpress
 wordpress-develop
 develop
 logs
+repos
+html
+snapshots
+additional-sites-html
+manager-html
+
