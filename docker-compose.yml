@@ -15,8 +15,6 @@ services:
       - ./logs/newspack-dev/mysql:/var/log/mysql
       - ./config/mysql.conf:/etc/mysql/conf.d/docker.cnf
       - ./bin:/var/scripts
-    networks:
-      - xdnetwork
     env_file:
       - default.env
       - .env
@@ -39,8 +37,6 @@ services:
     depends_on:
       - db
     image: newspack-dev-8:latest
-    networks:
-      - xdnetwork
     volumes:
       - ./logs/newspack-dev/apache2/:/var/log/apache2
       - ./logs/newspack-dev/php:/var/log/php
@@ -72,7 +68,3 @@ services:
     restart: always
     ports:
       - 8088:8080
-# We have to connect to the same network to ensure we can use the same DB
-networks:
-  xdnetwork:
-    driver: bridge
