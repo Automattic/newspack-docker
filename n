@@ -45,9 +45,8 @@ require_target_folder() {
     fi
 }
 
-case $1 in
-    start)
-        file="docker-compose.yml"
+start() {
+    file="docker-compose.yml"
         if [ "$2" == "8.1" ]; then
             file="docker-compose-81.yml"
         fi
@@ -55,9 +54,21 @@ case $1 in
             file="docker-compose-74.yml"
         fi
         docker-compose -f $file up -d
+}
+stop() {
+    docker-compose down
+}
+
+case $1 in
+    start)
+        start
         ;;
     stop)
-        docker-compose down
+        stop
+        ;;
+    restart)
+        stop
+        start
         ;;
     sh)
         docker exec -it $USER_COMMAND newspack_dev /bin/bash

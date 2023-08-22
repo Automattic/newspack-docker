@@ -10,6 +10,7 @@ newspack_plugins=(
 	"newspack-manager"
 	"newspack-manager-client"
 	"newspack-sponsors"
+	"republication-tracker-tool"
 	"super-cool-ad-inserter-plugin"
 	"newspack-multibranded-site"
 	"newspack-network"
