@@ -4,10 +4,32 @@ source bin/repos.sh
 
 mkdir -p repos
 
+PROTOCOL="ssh"
+
+while test $# -gt 0; do
+    case "$1" in
+        -h|--https)
+        shift
+        PROTOCOL="https"
+        ;;
+    *)
+        break
+        ;;
+    esac
+done
+
 cd repos
 for dir in "${newspack_plugins[@]}"
     do :
-        git clone git@github.com:Automattic/${dir}.git
+        if [[ $PROTOCOL = "ssh" ]]; then
+            git clone git@github.com:Automattic/${dir}.git
+        else
+            git clone https://github.com/Automattic/${dir}.git
+        fi
     done
 
-git clone git@github.com:Automattic/newspack-theme.git
+if [[ $PROTOCOL = "ssh" ]]; then
+    git clone https://github.com/Automattic/newspack-theme.git
+else
+    git clone https://github.com/Automattic/${dir}.git
+fi

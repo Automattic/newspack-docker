@@ -9,3 +9,4 @@ manager-html
 additional-sites-html
 bin/manager.private.key
 bin/manager.public.key
+.DS_Store
