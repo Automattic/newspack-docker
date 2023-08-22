@@ -36,7 +36,7 @@ The default builds using PHP 8. You can also call `./build-image-7.4.sh` or `./b
 
 ### Clone all repos
 
-This will clone all Newspack repos inside the `repos` folder
+This will clone all Newspack repos inside the `repos` folder. Assumes your host machine is authenticated with GitHub. Default git protocol is SSH. Add `-h` or `--https` to clone using HTTPS instead.
 
 ```BASH
 ./clone-repos.sh
@@ -54,6 +54,8 @@ n start
 (`n start 8.1` or `n start 7.4` will start the image with php 8.1 or 7.4 if you built them)
 
 When you are done, you can stop the containers with `n stop`.
+
+You can also stop and start in one command with `n restart` (or `n restart 8.1` or `n restart 7.4`).
 
 At this point you should be able to see your site in `http://localhost`.
 
