@@ -175,6 +175,40 @@ Connect to Server `db`, user `root` and password defined in your local `.env` fi
 
 By default, Memcached plugin is enabled. If you want to disable it, simply delete the `html/wp-content/object-cache.php` file.
 
+## X-Debug
+
+X-debug is configured by default. In order to use it:
+
+- Set you browser extension to use the `DOCKERDEBUG` IDE Key.
+- Configure your IDE to use the same IDE Key, listen to port 9003 and add the necessary path mappings.
+
+Here's an example of a `launch.json` file for VSCode to be used for the `newspack-plugin` repo:
+
+```
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Newspack Docker",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      "log": false,
+      "maxConnections": 1, // @see  https://github.com/xdebug/vscode-php-debug/issues/604
+      "xdebugSettings": {
+        "resolved_breakpoints": "0", // @see https://github.com/xdebug/vscode-php-debug/issues/629 and https://stackoverflow.com/a/69925257/3059883
+        "max_data": 512,
+        "show_hidden": 1,
+        "max_children": 128
+      },
+      "pathMappings": {
+        "/newspack-repos/newspack-plugin": "${workspaceRoot}"
+      },
+    }
+  ]
+}
+```
+
 ## Newspack Manager
 
 This Docker environment will launch two sites by default. One is the site you will be working on to develop all plugins, and the other is the one that will run the Newspack Manager Client.

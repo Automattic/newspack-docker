@@ -71,6 +71,8 @@ RUN \
 		php${PHP_VERSION}-zip \
 		php${PHP_VERSION}-memcache \
 		phpunit \
+	php-pear \
+	php${PHP_VERSION}-dev \
 	&& apt-get install -y --no-install-recommends \
 		php${PHP_VERSION}-apcu \
 		php${PHP_VERSION}-gd \
@@ -140,6 +142,9 @@ RUN chmod +x /usr/local/bin/init_apache_user && /usr/local/bin/init_apache_user
 
 # Copy our cmd bash script.
 COPY ./bin/run.sh /usr/local/bin/run
+
+# Xdebug
+RUN pecl install xdebug 
 
 # Make our cmd script be executable.
 RUN chmod +x /usr/local/bin/run

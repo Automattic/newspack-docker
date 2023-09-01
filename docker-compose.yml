@@ -38,10 +38,6 @@ services:
       - db
     image: newspack-dev-8:latest
     volumes:
-      ## WordPress and its plugins and themes should be defined in volumeMappings in jetpack-docker-config-default.yml or jetpack-docker-config.yml, not here!
-      ## That avoids having to define them both here and in the "sftp" service.
-      - dockerdirectory:/usr/local/src/jetpack-monorepo/tools/docker
-      # - ./wordpress-develop:/tmp/wordpress-develop
       - ./logs/newspack-dev/apache2/:/var/log/apache2
       - ./logs/newspack-dev/php:/var/log/php
       - ./bin:/var/scripts
@@ -59,6 +55,8 @@ services:
       - HOST_PORT=${PORT_WORDPRESS:-80}
      # - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
       - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   mailhog:
     image: arjenz/mailhog:latest
     restart: always
