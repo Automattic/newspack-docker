@@ -46,6 +46,9 @@ RUN \
 # Enable mod_rewrite in Apache.
 RUN a2enmod rewrite
 
+# Enable SSL in Apache.
+RUN a2enmod ssl
+
 # Install requested version of PHP.
 RUN \
 	: "${PHP_VERSION:?Build argument PHP_VERSION needs to be set and non-empty.}" \
@@ -144,10 +147,17 @@ RUN chmod +x /usr/local/bin/init_apache_user && /usr/local/bin/init_apache_user
 COPY ./bin/run.sh /usr/local/bin/run
 
 # Xdebug
-RUN pecl install xdebug 
+RUN pecl install xdebug
 
 # Make our cmd script be executable.
 RUN chmod +x /usr/local/bin/run
+
+
+# Set up SSL
+# https://stackoverflow.com/a/73303983/3772847
+RUN echo "Mutex posixsem" >> /etc/apache2/apache2.conf
+COPY ./bin/ssl.sh /usr/local/bin/ssl
+RUN chmod +x /usr/local/bin/ssl && /usr/local/bin/ssl
 
 # Set the working directory for the next commands.
 WORKDIR /var/www/html

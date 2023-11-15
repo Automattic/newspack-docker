@@ -49,7 +49,7 @@ if [ -e $APACHE_PID_FILE ]; then
 fi
 
 echo
-echo "Open http://${WP_DOMAIN}${WP_HOST_PORT}/ to see your site!"
+echo "Open https://${WP_DOMAIN}${WP_HOST_PORT}/ to see your site!"
 echo "Open http://localhost:8025 to see Mailhog inbox."
 echo
 

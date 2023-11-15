@@ -57,7 +57,7 @@ When you are done, you can stop the containers with `n stop`.
 
 You can also stop and start in one command with `n restart` (or `n restart 8.1` or `n restart 7.4`).
 
-At this point you should be able to see your site in `http://localhost`.
+At this point you should be able to see your site in `https://localhost`.
 
 #### Install WordPress
 ```BASH
