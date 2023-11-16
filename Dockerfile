@@ -152,7 +152,6 @@ RUN pecl install xdebug
 # Make our cmd script be executable.
 RUN chmod +x /usr/local/bin/run
 
-
 # Set up SSL
 # https://stackoverflow.com/a/73303983/3772847
 RUN echo "Mutex posixsem" >> /etc/apache2/apache2.conf
