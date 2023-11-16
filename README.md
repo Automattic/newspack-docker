@@ -275,3 +275,11 @@ Visit `http://additional-sites.local` and you'll see a list of the existing site
 You can use the same `n` commands to interact with these sites. If you run the `n` script from inside a site's folder, it will interact with this specific site. If run it from anywhere else, it will interact with the main site.
 
 The sites live under `additional-sites-html` folder. `cd` into one of the sites folder to interact with them.
+
+### SSL
+
+A certificate will be generated, so HTTPS is available immediately. However, the CA (Certificate Authority) certificate is installed on the Docker machine, so a browser will warn about a `ERR_CERT_AUTHORITY_INVALID` error. To make the certificate recognisable on the host machine, run the following commands (for macOS):
+
+- `$ docker exec newspack_dev bash -c 'eval cat $(mkcert -CAROOT)/rootCA.pem' > rootCA.pem` to copy the CA certificate from the Docker machine
+- `$ sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" ./rootCA.pem` to trust this CA certificate (import to KeyChain). Alternatively, double-click on the .pem file.
+- remove the `rootCA.pem`, it's no longer needed
