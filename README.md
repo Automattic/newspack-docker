@@ -127,6 +127,7 @@ Other commands:
 * `n reset-site`: Drops the current site and creates a new one from scratch
 * `n pull`: Pull every git repository inside `repos/`
 * `sites-add`, `sites-drop`, `sites-list`: See Additional Sites section below
+* `n setup-newspack-network`: Sets up the connections of Newspack Network and Distributor plugins between all active sites
 
 ## Jurassic Ninja
 
@@ -254,18 +255,9 @@ define( 'NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE', 'https://my-domain.my-tunnel.co
 
 If you need to run a couple of additional sites, we got you covered.
 
-You can have a number of additional sites running under `additional-sites.local`. They will live in subfolder of this local domain. For example; `additional-sites.local/site1`, `additional-sites.local/site2`, etc.
+You can have a number of additional sites running under `you-name-it.local`. They will live in their own local domain, such as `site1.local` and `another-site.local`.
 
-`n sites-add` will launch a new site in the next available spot. The site will come with Newpack already initialized and all the plugins linked. Your secrets will also be copied. It's basically the same result as running `n reset-site` for your main site.
-
-Preparation: Configure the `additional-sites.local` domain to point to your localhost by adding it to the `hosts` file.
-
-In your favorite text editor, open the `/etc/hosts` file and add a line with `127.0.0.1 additional-sites.local`. Or run the following command:
-```BASH
-echo "127.0.0.1 additional-sites.local" | sudo tee -a /etc/hosts
-```
-
-Visit `http://additional-sites.local` and you'll see a list of the existing sites and handy links to access them.
+`n sites-add $site_name` will launch a new site. The site will come with Newpack already initialized and all the plugins linked. Your secrets will also be copied. It's basically the same result as running `n reset-site` for your main site.
 
 * `n sites-list` - Lists the current existing sites
 * `n sites-drop $sitename` - Will completely erase the site and its database
@@ -276,7 +268,21 @@ You can use the same `n` commands to interact with these sites. If you run the `
 
 The sites live under `additional-sites-html` folder. `cd` into one of the sites folder to interact with them.
 
-### SSL
+## Newspack Network and Distributor
+
+If you want to play with Newspack's Federated sites features, there's a handy comment that will set everything up for you.
+
+* First, create as many sites you like with `n sites-add` (see docs above)
+* Run `n setup-newspack-network`
+* That's it!
+
+This command will:
+* Make sure Newspack Network and Distributor plugins are enable in all sites
+* Register the Nodes in the Newspack Network Hub (this will be your main site)
+* Configure the each Node with the Hub's key
+* Set up Distributor external connections between all sites
+
+## SSL
 
 A certificate will be generated, so HTTPS is available immediately. However, the CA (Certificate Authority) certificate is installed on the Docker machine, so a browser will warn about a `ERR_CERT_AUTHORITY_INVALID` error. To make the certificate recognisable on the host machine, run the following commands (for macOS):
 
