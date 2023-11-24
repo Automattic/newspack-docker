@@ -275,6 +275,7 @@ If you want to play with Newspack's Federated sites features, there's a handy co
 * First, create as many sites you like with `n sites-add` (see docs above)
 * Run `n setup-newspack-network`
 * That's it!
+* Whenever you add a new site, you can run this command again and it will get added to the network
 
 This command will:
 * Make sure Newspack Network and Distributor plugins are enable in all sites
