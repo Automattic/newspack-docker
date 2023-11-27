@@ -1,5 +1,6 @@
 #!/bin/bash
 
+NABSPATH=$(dirname $(readlink -f $0))
 source "$(dirname "${BASH_SOURCE[0]}")/bin/repos.sh"
 
 # Infer the current working project from the current folder;
@@ -75,6 +76,24 @@ case $1 in
         ;;
     rsh)
         docker exec -it newspack_dev /bin/bash
+        ;;
+    cd-install)
+        echo "This will install the ncd command in your system. Please inform the file you want to add this to (e.g. .bashrc)"
+        read -e -p "> $HOME/" file
+        target="$HOME/$file"
+        snippet="source $NABSPATH/bin/ncd.sh"
+        if grep -Fxq "$snippet" $target
+        then
+            echo "ncd is already installed on $target"
+        else
+            echo $snippet >> $target
+            echo "ncd installed!"
+            echo
+            echo "Restart your terminal or run 'source $target' to start using it"
+            echo
+            echo "To use it, just type 'ncd <folder>'"
+            echo "It will look for matches on the repos folder, the additional-sites-html folder and the plugins folder of the main site"
+        fi
         ;;
     install)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install.sh $current_site_path"
