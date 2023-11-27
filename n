@@ -47,8 +47,8 @@ require_target_folder() {
 
 start() {
     file="docker-compose.yml"
-        if [ "$2" == "8.1" ]; then
-            file="docker-compose-81.yml"
+        if [ "$2" == "8.0" ]; then
+            file="docker-compose-80.yml"
         fi
         if [ "$2" == "7.4" ]; then
             file="docker-compose-74.yml"
