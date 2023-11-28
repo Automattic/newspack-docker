@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NABSPATH=$(dirname $(readlink -f $0))
+NABSPATH="$(dirname "${BASH_SOURCE[0]}")"
 source "$(dirname "${BASH_SOURCE[0]}")/bin/repos.sh"
 
 # Infer the current working project from the current folder;
@@ -86,6 +86,7 @@ case $1 in
         then
             echo "ncd is already installed on $target"
         else
+            echo "NEWSPACK_DOCKER_ROOT=$NABSPATH" >> $target
             echo $snippet >> $target
             echo "ncd installed!"
             echo
