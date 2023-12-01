@@ -32,7 +32,7 @@ You only need to run this the first time you set up your env.
 ./build-image.sh
 ```
 
-The default builds using PHP 8. You can also call `./build-image-7.4.sh` or `./build-image-81.sh` to build an image with PHP 7.4 or 8.0. It's a good idea to have both.
+The default builds using PHP 8.1. You can also call `./build-image-7.4.sh` or `./build-image-80.sh` to build an image with PHP 7.4 or 8.0. It's a good idea to have both.
 
 ### Clone all repos
 
@@ -51,7 +51,7 @@ Now we are going to use the `n` script. (Tip: Create an alias in your `.bashrc` 
 n start
 ```
 
-(`n start 8.1` or `n start 7.4` will start the image with php 8.1 or 7.4 if you built them)
+(`n start 8.0` or `n start 7.4` will start the image with php 8.0 or 7.4 if you built them)
 
 When you are done, you can stop the containers with `n stop`.
 
@@ -128,6 +128,26 @@ Other commands:
 * `n pull`: Pull every git repository inside `repos/`
 * `sites-add`, `sites-drop`, `sites-list`: See Additional Sites section below
 * `n setup-newspack-network`: Sets up the connections of Newspack Network and Distributor plugins between all active sites
+* `n cd-install`: Install the handy `ncd` function to your terminal. See section below.
+
+## Navigating between projects (the `ncd` command)
+
+Many of the `n` commands will act on the project you are currently in. For example, if you are in the main plugin folder, `n build` will build the plugin. If you are inside the folder of one of your additional sites, `n shell` will launch the WP Shell for that particular site.
+
+But navigating between all these directories might become tiring, since you have to go to the `repos` folder, and then down to `additional-sites-html` and sometimes inside one particular plugin you want to debug.
+
+To make navigating easier, use the `ncd` terminal command.
+
+`ncd` will take you to the directory you want, no matter where you are at when you type it. When you type `ncd plugin`, it will:
+
+* Look for an exact match in the repos folder: `... /repos/plugin`
+* Look for a repo with the `newspack-` prefix: `... /repos/newspack-plugin`
+* Look for an additional site with that name `... /additional-sites-html/plugin`
+* Look for a plugin installed in the main site `... /html/wp-content/plugins/plugin`
+
+So when you arrive at your home folder and want to go to the `newspack-newsletters` project, instead of typing something like `cd my-project/newspack-docker/repos/newspack-newsletters`, all you need to do is `ncd newsletters`!
+
+To start using it, you need to add it to your terminal by running `n cd-install` and then inform the loader file you want to add the script to, for example `.bashrc`, `.zshrc`, etc.
 
 ## Jurassic Ninja
 
