@@ -126,7 +126,13 @@ case $1 in
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/setup-manager.sh"
         ;;
     sites-add)
-        docker exec -it newspack_dev sh -c "/var/scripts/sites-add.sh ${@:2}"
+        docker exec -it newspack_dev sh -c "/var/scripts/sites-add.sh $2"
+        read -p "Do you want to add this domain to your local hosts file? (Y/n): " choice
+        choice=${choice,,}
+        if [[ "$choice" != "n" ]]; then
+            echo "127.0.0.1 $2.local" | sudo tee -a /etc/hosts
+        fi
+
         ;;
     sites-list)
         docker exec -it newspack_dev sh -c "/var/scripts/sites-list.sh ${@:2}"
@@ -185,6 +191,9 @@ case $1 in
         fi
         cd ..
         done
+        ;;
+    setup-newspack-network)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/setup-newspack-network.sh"
         ;;
     *)
         echo Unknown command

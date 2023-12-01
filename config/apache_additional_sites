@@ -6,11 +6,13 @@
 	# match this virtual host. For the default virtual host (this file) this
 	# value is not decisive as it is used as a last resort host regardless.
 	# However, you must set it for any further virtual host explicitly.
-	
-    ServerName additional-sites.local
+
+	UseCanonicalName Off
+    ServerAlias *.local
+	VirtualDocumentRoot /var/www/additional-sites-html/%1
 
 	ServerAdmin webmaster@localhost
-	DocumentRoot /var/www/additional-sites-html
+	# DocumentRoot /var/www/additional-sites-html
 
 		<Directory /var/www/additional-sites-html>
 				AllowOverride All
@@ -32,6 +34,26 @@
 	# following line enables the CGI configuration for this host only
 	# after it has been globally disabled with "a2disconf".
 	#Include conf-available/serve-cgi-bin.conf
+
+</VirtualHost>
+
+<VirtualHost *:443>
+
+    UseCanonicalName Off
+    ServerAlias *.local
+	VirtualDocumentRoot /var/www/additional-sites-html/%1
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/localhost.pem
+    SSLCertificateKeyFile /etc/ssl/certs/localhost-key.pem
+
+    <Directory /var/www/additional-sites-html>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # ErrorLog /var/log/apache-errors.log
+    # CustomLog /var/log/apache-access.log combined
 
 </VirtualHost>
 
