@@ -4,7 +4,7 @@ ncd() {
 	if [ -z "$1" ]
 	then
 		cd $NEWSPACK_DOCKER_ROOT
-
+		return
 	fi
 
 	# Newspack Manager html:
