@@ -12,3 +12,4 @@ bin/manager.public.key
 .DS_Store
 bin/newspack-network/nodes-keys.json
 bin/newspack-network/service-accounts.secret
+rootCA.pem
