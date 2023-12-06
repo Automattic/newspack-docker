@@ -12,7 +12,7 @@ fi
 
 # Install WP core
 wp --allow-root core install \
-	--url=manager.local \
+	--url=manager.com \
 	--title="${WP_TITLE}" \
 	--admin_user=${WP_ADMIN_USER} \
 	--admin_password=${WP_ADMIN_PASSWORD} \
@@ -20,5 +20,5 @@ wp --allow-root core install \
 	--skip-email
 
 echo
-echo "Manager installed. Open manager.local"
+echo "Manager installed. Open manager.com"
 echo

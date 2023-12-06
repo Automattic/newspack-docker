@@ -17,19 +17,26 @@ fi
 
 CERTS_DIR="/etc/ssl/certs"
 
-if [ -f "$CERTS_DIR/${WP_DOMAIN}.pem" ]; then
-  echo "Found SSL certificate in $CERTS_DIR for ${WP_DOMAIN}."
-else
-  echo "Creating SSL certificate in $CERTS_DIR for ${WP_DOMAIN}…"
+function create_cert_for_domain() {
+  local DOMAIN=$1
 
-  # Create certificate for the domain.
-  mkcert -install
-  mkcert ${WP_DOMAIN}
+  if [ -f "$CERTS_DIR/${DOMAIN}.pem" ]; then
+    echo "Found SSL certificate in $CERTS_DIR for ${DOMAIN}."
+  else
+    echo "Creating SSL certificate in $CERTS_DIR for ${DOMAIN}…"
 
-  mkdir -p $CERTS_DIR
-  mv ${WP_DOMAIN}.pem "$CERTS_DIR/${WP_DOMAIN}.pem"
-  mv ${WP_DOMAIN}-key.pem "$CERTS_DIR/${WP_DOMAIN}-key.pem"
-fi
+    mkdir -p $CERTS_DIR
+    cd $CERTS_DIR
+    # Create certificate for the domain.
+    mkcert ${DOMAIN}
+  fi
+}
+
+# Create the local CA.
+mkcert -install
+
+create_cert_for_domain $WP_DOMAIN
+create_cert_for_domain "manager.com"
 
 # Replace "localhost" with WP_DOMAIN in the apache config file:
 sed -i "s/localhost/${WP_DOMAIN}/g" /etc/apache2/sites-available/000-default.conf

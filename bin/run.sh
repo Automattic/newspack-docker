@@ -49,7 +49,8 @@ if [ -e $APACHE_PID_FILE ]; then
 fi
 
 echo
-echo "Open https://${WP_DOMAIN}${WP_HOST_PORT}/ to see your site!"
+echo "Main site is available at https://${WP_DOMAIN}${WP_HOST_PORT}/"
+echo "Newspack Manager site is available at https://manager.com${WP_HOST_PORT}/"
 echo "Open http://localhost:8025 to see Mailhog inbox."
 echo
 
