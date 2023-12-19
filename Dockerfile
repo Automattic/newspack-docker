@@ -167,4 +167,7 @@ WORKDIR /var/www/html
 # Make WP CLI always run as with allow-root.
 RUN echo alias wp=\"wp --allow-root\" >> ~/.bashrc
 
+# Allow us to login and run commands as the default apache user. Not recommended for production environments!
+RUN chsh -s /bin/bash www-data
+
 CMD ["/usr/local/bin/run"]
