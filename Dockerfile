@@ -164,4 +164,7 @@ RUN a2ensite 002-additional.conf
 # Set the working directory for the next commands.
 WORKDIR /var/www/html
 
+# Make WP CLI always run as with allow-root.
+RUN echo alias wp=\"wp --allow-root\" >> ~/.bashrc
+
 CMD ["/usr/local/bin/run"]

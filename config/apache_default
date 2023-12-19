@@ -23,7 +23,7 @@
     # modules, e.g.
     # LogLevel info ssl:warn
 
-    # ErrorLog /var/log/apache-errors.log
+    ErrorLog /var/log/apache-errors.log
     # CustomLog /var/log/apache-access.log combined
 
     # For most configuration files from conf-available/, which are
@@ -49,7 +49,7 @@
         Require all granted
     </Directory>
 
-    # ErrorLog /var/log/apache-errors.log
+    ErrorLog /var/log/apache-errors.log
     # CustomLog /var/log/apache-access.log combined
 
 </VirtualHost>

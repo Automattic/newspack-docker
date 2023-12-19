@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * MU Plugin for the Newspack Docker development environment
  */
@@ -32,8 +32,8 @@ add_filter(
 
 /**
  * Make sure CLI commands use the correct site URL
- * This is important when communicating with manager.local, as the key is tied to the domain
- * 
+ * This is important when communicating with manager.com, as the key is tied to the domain
+ *
  * By default, the docker environment provides a dynamic site url, so you can access the site either via localhost or a tunneled domain, required for some actions.
  * Because of that, when running commands via CLI, the returned site url is localhost.
  * Use the NEWSPACK_DOCKER_SITE_URL_CLI_OVERRIDE to override the site url for CLI commands.
