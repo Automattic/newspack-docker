@@ -82,6 +82,7 @@ Build one specific project:
 n build theme # Builds the newspack-theme repo
 n build newspack-plugin # Builds the main plugin
 n build newsletters # You can also omit the 'newspack-' prefix from plugins
+n build # Bulds the project you are currently in
 ```
 
 Watch and run tests on projects:
@@ -99,6 +100,12 @@ Run composer commands inside one of the projects
 ```BASH
 n composer dump-autoload # Runs `composer dump-autload` inside the current repo
 n composer update # Runs `composer update` inside the current repo
+```
+
+Run `npm` commands inside one of the projects
+
+```BASH
+n npm run release:archive # Runs `npm run release:archive` inside the current repo
 ```
 
 Run WP CLI interactive shell

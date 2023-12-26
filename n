@@ -152,7 +152,8 @@ case $1 in
         ;;
     test-php)
         require_target_folder
-        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/test-php.sh $target_folder ${@:2}"
+        command="/var/scripts/test-php.sh $target_folder ${@:2}"
+        docker exec -it $USER_COMMAND newspack_dev sh -c "$command"
         ;;
     test-js)
         require_target_folder
@@ -160,7 +161,13 @@ case $1 in
         ;;
     composer)
         require_target_folder
-        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/composer.sh $target_folder ${@:2}"
+        command="/var/scripts/composer.sh $target_folder ${@:2}"
+        docker exec -it $USER_COMMAND newspack_dev sh -c "$command"
+        ;;
+    npm)
+        require_target_folder
+        command="/var/scripts/npm.sh $target_folder ${@:2}"
+        docker exec -it $USER_COMMAND newspack_dev sh -c "$command"
         ;;
     secrets)
         docker exec -it $USER_COMMAND newspack_dev sh -c "wp eval-file /var/scripts/generate-secrets.php --allow-root"
