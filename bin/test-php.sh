@@ -31,7 +31,7 @@ case $WHAT_TO_WATCH in
             fi
         fi
         cd "${CODE_PATH}/${WHAT_TO_WATCH}"
-        bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST latest
+        bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST latest 2> /dev/null
         echo "Running: phpunit ${@:2}"
         XDEBUG_MODE=coverage phpunit "${@:2}"
         ;;
