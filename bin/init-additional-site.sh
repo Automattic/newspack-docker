@@ -9,7 +9,7 @@ cd "/var/www/additional-sites-html/$SITE_NAME"
 
 # Configure WordPress
 if [ ! -f "/var/www/additional-sites-html/$SITE_NAME/wp-config.php" ]; then
-	echo "Creating wp-config.php ..."
+	echo "Creating wp-config.php..."
 	# Loop until wp cli exits with 0
 	# because if running the containers for the first time,
 	# the mysql container will reject connections until it has set the database data
@@ -37,7 +37,6 @@ if [ ! -f "/var/www/additional-sites-html/$SITE_NAME/wp-config.php" ]; then
 	wp config set WP_AUTO_UPDATE_CORE true --raw --type=constant
 	wp config set AUTOMATIC_UPDATER_DISABLED true --raw --type=constant
 	wp config set WP_ENVIRONMENT_TYPE local --type=constant
-
 fi
 
 # Copy single site htaccess if none is present
