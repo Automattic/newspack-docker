@@ -154,7 +154,9 @@ RUN a2enmod ssl
 # https://stackoverflow.com/a/73303983/3772847
 RUN echo "Mutex posixsem" >> /etc/apache2/apache2.conf
 COPY ./bin/ssl.sh /usr/local/bin/ssl
-RUN chmod +x /usr/local/bin/ssl && /usr/local/bin/ssl
+RUN chmod +x /usr/local/bin/ssl
+RUN /usr/local/bin/ssl 'localhost'
+RUN /usr/local/bin/ssl 'manager.com'
 
 # Set up additional sites support
 RUN a2enmod vhost_alias
