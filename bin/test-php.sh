@@ -30,6 +30,7 @@ case $WHAT_TO_WATCH in
                 exit 1
             fi
         fi
+        echo "Running tests for ${WHAT_TO_WATCH}"
         cd "${CODE_PATH}/${WHAT_TO_WATCH}"
         bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST latest 2> /dev/null
         echo "Running: phpunit ${@:2}"
