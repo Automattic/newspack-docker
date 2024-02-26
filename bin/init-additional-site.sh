@@ -65,6 +65,10 @@ sudo cat <<EOF >> /etc/apache2/sites-available/002-additional.conf
 	SSLEngine on
 	SSLCertificateFile /etc/ssl/certs/${SITE_NAME}.local.pem
 	SSLCertificateKeyFile /etc/ssl/certs/${SITE_NAME}.local-key.pem
+	<Directory /var/www/additional-sites-html/${SITE_NAME}>
+        AllowOverride All
+        Require all granted
+    </Directory>
 </VirtualHost>
 EOF
 
@@ -74,5 +78,3 @@ service apache2 reload
 else
 	echo "SSL VirtualHost block already found for ${SITE_NAME}…"
 fi
-
-
