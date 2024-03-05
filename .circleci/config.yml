@@ -7,8 +7,28 @@ commands:
       - attach_workspace:
           at: ~/
       - run:
-          name: Hello
-          command: echo "Hello, CI!"
+          name: Create .env file from env vars
+          command: printenv >> ./e2e/.env
+      - run:
+          name: Reset the test site
+          command: |
+            echo "Resetting the test site"
+            apt-get update
+            apt-get install sshpass
+            mkdir -p /root/.ssh
+            echo "$SSH_KNOWN_HOST" > /root/.ssh/known_hosts
+            sshpass -p "$SSH_USER_PASS" ssh -v $SSH_USER@$SSH_HOST 'bash -s' < ./bin/e2e-reset.sh
+      - run:
+          name: Run tests
+          command: |
+            cd e2e
+            npm install
+            npx playwright install chromium
+            npm run test
+      - store_artifacts:
+          path: e2e/playwright-report
+      - store_artifacts:
+          path: e2e/test-results
 
 executors:
   docker-playwright:

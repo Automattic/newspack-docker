@@ -10,3 +10,13 @@ Is run with Playwright.
 - run `npm run codegen -- <site-url>` for a test code generation UI
 
 After running the tests, run `/var/scripts/e2e-reset.sh` in the docker container (`n sh` to enter it) to reset the data.
+
+## CI testing
+
+Will need some additional environment variables and setup steps:
+
+1. Create a site on a platform which accepts password-only SSH authentication, and define the following environment variables:
+   1. `SSH_USER`
+   2. `SSH_HOST`
+   3. `SSH_USER_PASS`
+   4. `SSH_KNOWN_HOST` - this one you can get by connecting to the platform and copying the line added to the `/root/.ssh/known_hosts` file
