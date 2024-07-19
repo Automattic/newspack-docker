@@ -42,7 +42,7 @@ test("Campaigns", async ({ page }) => {
   await page
     .getByLabel("Empty block; start writing or")
     .fill("This is an overlay campaign");
-  await page.getByLabel("Prompt").click();
+  await page.getByRole("tab", { name: "Prompt" }).click();
   await page
     .getByLabel("Editor settings")
     .getByRole("button", { name: "Settings", exact: true })
