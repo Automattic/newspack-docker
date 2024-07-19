@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# ummm maybe not needed after all
+if [ -f /var/scripts/.e2e-env ]; then
+    echo 'got it'
+    export $(cat /var/scripts/.e2e-env | grep -v '#' | awk '/=/ {print $1}')
+fi
+
 echo ""
 echo "Selective resetting for E2E tests…"
 

@@ -9,6 +9,7 @@ manager-html
 additional-sites-html
 bin/manager.private.key
 bin/manager.public.key
+bin/.e2e-env
 .DS_Store
 bin/newspack-network/nodes-keys.json
 bin/newspack-network/service-accounts.secret
