@@ -37,11 +37,10 @@ test("Campaigns", async ({ page }) => {
   await page.waitForURL(/post_type=newspack_popups_cpt/);
 
   // Create the prompt.
+  const CAMPAIGN_BODY = "This is an overlay campaign";
   await page.getByLabel("Add title").fill("Hello!");
   await page.getByLabel("Add default block").click();
-  await page
-    .getByLabel("Empty block; start writing or")
-    .fill("This is an overlay campaign");
+  await page.getByLabel("Empty block; start writing or").fill(CAMPAIGN_BODY);
   await page.getByRole("tab", { name: "Prompt" }).click();
   await page
     .getByLabel("Editor settings")
@@ -56,6 +55,8 @@ test("Campaigns", async ({ page }) => {
       .frameLocator('iframe[title="web-preview"]')
       .getByRole("button", { name: "draft This is an overlay" })
   ).toBeVisible();
+  await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
+  await page.waitForTimeout(200);
   await page.getByLabel("Close Preview").click();
 
   // Publish the prompt.
@@ -64,10 +65,14 @@ test("Campaigns", async ({ page }) => {
     .getByLabel("Editor publish")
     .getByRole("button", { name: "Publish", exact: true })
     .click();
+  await expect(
+    page.getByTestId("snackbar").getByText("Post published.")
+  ).toBeVisible();
 
   // Go to the front-end and verify the prompt is visible.
   await page.goto(URL);
-  await expect(page.getByText("This is an overlay campaign")).toBeVisible();
+  await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
+  await page.waitForTimeout(200);
   await page.getByLabel("Close Pop-up").click();
-  await expect(page.getByText("This is an overlay campaign")).not.toBeVisible();
+  await expect(page.getByText(CAMPAIGN_BODY)).not.toBeVisible();
 });
