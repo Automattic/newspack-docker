@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# ummm maybe not needed after all
+# Load the /e2e/.env file.
 if [ -f /var/scripts/.e2e-env ]; then
-    echo 'got it'
     export $(cat /var/scripts/.e2e-env | grep -v '#' | awk '/=/ {print $1}')
 fi
 
@@ -23,3 +22,14 @@ wp --allow-root post delete $(wp --allow-root post list --post_type=newspack_pop
 wp --allow-root option delete newspack_popups_segments || true
 # Remove the "Campaigns"
 wp --allow-root term list newspack_popups_taxonomy --field=term_id | xargs wp --allow-root term delete newspack_popups_taxonomy || true
+
+# Site setup - could be a testing scenario of its own some day, via UI.
+echo ""
+echo "Setup the site - Reader Revenue"
+WCGS_OPTION=$(jq -n --arg pk "$STRIPE_PUBLISHABLE_KEY" --arg sk "$STRIPE_SECRET_KEY" '{"enabled":"yes","testMode":true,"test_publishable_key":$pk,"test_secret_key":$sk}' | sed 's/\\"//g')
+wp --allow-root option set woocommerce_stripe_settings "$WCGS_OPTION" --format=json
+wp --allow-root post update $(wp --allow-root option get newspack_donation_page_id) --post_status=publish
+# Create the donation products – this happens when the RR settings are saved in RR wizard.
+wp --allow-root eval "\Newspack\Donations::update_donation_product();"
+# Limit the fields required for checkout.
+wp --allow-root option set newspack_donations_billing_fields '["billing_email","billing_first_name","billing_last_name"]' --format=json
