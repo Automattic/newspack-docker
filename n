@@ -105,6 +105,9 @@ case $1 in
     reset-site)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/reset-site.sh $current_site_path"
         ;;
+    install-node)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install-node.sh"
+        ;;
     tail)
         tail -f $current_site_relative_path/wp-content/debug.log
         ;;
