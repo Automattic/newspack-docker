@@ -146,6 +146,7 @@ RUN chmod +x /usr/local/bin/init_apache_user && /usr/local/bin/init_apache_user
 # RUN mkdir -p /var/log/php
 # RUN chown www-data:www-data /var/log/php
 # RUN chmod -R 777 /var/log/php
+# attempt 2: maybe this will work with default Apache User? Undo setting in .env
 # RUN pecl install xdebug
 
 # Copy and make cmd script executable.
