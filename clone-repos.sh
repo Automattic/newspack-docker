@@ -29,7 +29,7 @@ for dir in "${newspack_plugins[@]}"
     done
 
 if [[ $PROTOCOL = "ssh" ]]; then
-    git clone https://github.com/Automattic/newspack-theme.git
+    git clone git@github.com:Automattic/newspack-theme.git
 else
-    git clone https://github.com/Automattic/${dir}.git
+    git clone https://github.com/Automattic/newspack-theme.git
 fi
