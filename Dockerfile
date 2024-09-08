@@ -142,8 +142,11 @@ COPY ./config/ssmtp.conf /etc/ssmtp/ssmtp.conf
 COPY ./bin/init_apache_user.sh /usr/local/bin/init_apache_user
 RUN chmod +x /usr/local/bin/init_apache_user && /usr/local/bin/init_apache_user
 
-# Xdebug
-RUN pecl install xdebug
+# Xdebug - install, but make sure the logging folder exists and is writable first.
+# RUN mkdir -p /var/log/php
+# RUN chown www-data:www-data /var/log/php
+# RUN chmod -R 777 /var/log/php
+# RUN pecl install xdebug
 
 # Copy and make cmd script executable.
 COPY ./bin/run.sh /usr/local/bin/run
