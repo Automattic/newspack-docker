@@ -14,7 +14,7 @@ Follow the "Setting up a test site" instructions from this doc.
 - run `npm run test:ui` for a test run with UI
 - run `npm run codegen -- <site-url>` for a test code generation UI
 
-After running the tests, run `/var/scripts/e2e-reset.sh` in the docker container (`n sh` to enter it) to reset the data.
+After running the tests, run `/var/scripts/e2e-reset.sh` in the docker container (`n sh` to enter it, then navigate to the WordPress files (`/var/www/additional-sites-html/e2e/`)) to reset the data.
 
 ## CI testing
 
