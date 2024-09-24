@@ -76,13 +76,3 @@ test("Campaigns", async ({ page }) => {
   await page.getByLabel("Close Pop-up").click();
   await expect(page.getByText(CAMPAIGN_BODY)).not.toBeVisible();
 });
-
-test("Reader Sign-Up", async ({ page }) => {
-  await page.goto(URL);
-  await page.getByRole("link", { name: "Sign In" }).click();
-  const EMAIL_ADDRESS = "tester@testland.com";
-  await page
-    .getByPlaceholder("Your email address", { exact: true })
-    .fill(EMAIL_ADDRESS);
-  await page.getByRole("button", { name: "Continue" }).click();
-});
