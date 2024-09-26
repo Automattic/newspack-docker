@@ -20,6 +20,8 @@ After running the tests, run `/var/scripts/e2e-reset.sh` in the docker container
 
 Will need a publicly accessible (or at least accessible for the CI server) test site, running on a platform which accepts password-only SSH authentication.
 
+[The credentials for the Atomic site currently used for the e2e testing.](https://mc.a8c.com/secret-store/?secret_id=12168)
+
 1. In addition to the variables from `.env-sample`, also define the following in the CircleCI project settings:
    1. `SSH_USER` - simply a username string, e.g. `newspack-user`
    2. `SSH_HOST` - hostname of the platform, e.g. `ssh.myplatform.net`
