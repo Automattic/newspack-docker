@@ -6,7 +6,7 @@ then
     APACHE_USER="$USE_CUSTOM_APACHE_USER"
 fi
 
-docker build --platform linux/amd64 \
+docker build --platform linux/arm64 \
     -t newspack-dev-74 \
     --build-arg PHP_VERSION=7.4 \
     --build-arg COMPOSER_VERSION=2.1.14 \
