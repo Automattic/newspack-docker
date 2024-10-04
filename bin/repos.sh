@@ -11,9 +11,12 @@ newspack_plugins=(
 	"newspack-manager-client"
 	"newspack-sponsors"
 	"republication-tracker-tool"
-	"super-cool-ad-inserter-plugin"
+	"super-cool-ad-inserter"
 	"newspack-multibranded-site"
 	"newspack-network"
+	"publisher-media-kit-for-newspack"
+	"newspack-subscription-migrations"
+	"newspack-elections"
 )
 
 newspack_themes=(
@@ -26,5 +29,5 @@ newspack_themes=(
 )
 
 newspack_block_theme=(
-	"newspack-theme"
+	"newspack-block-theme"
 )

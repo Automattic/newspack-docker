@@ -36,7 +36,7 @@ function create_cert_for_domain() {
 mkcert -install
 
 create_cert_for_domain $WP_DOMAIN
-create_cert_for_domain "manager.com"
+create_cert_for_domain "manager.local"
 
 # Replace "localhost" with WP_DOMAIN in the apache config file:
 sed -i "s/localhost/${WP_DOMAIN}/g" /etc/apache2/sites-available/000-default.conf

@@ -7,9 +7,9 @@
 	# value is not decisive as it is used as a last resort host regardless.
 	# However, you must set it for any further virtual host explicitly.
 
-	ServerName manager.com
+	ServerName manager.local
 
-    ServerAdmin webmaster@manager.com
+    ServerAdmin webmaster@manager.local
     DocumentRoot /var/www/manager-html
 
     <Directory /var/www/manager-html>
@@ -37,12 +37,12 @@
 
 <VirtualHost *:443>
 
-    ServerName manager.com
+    ServerName manager.local
     DocumentRoot /var/www/manager-html
 
     SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/manager.com.pem
-    SSLCertificateKeyFile /etc/ssl/certs/manager.com-key.pem
+    SSLCertificateFile /etc/ssl/certs/manager.local.pem
+    SSLCertificateKeyFile /etc/ssl/certs/manager.local-key.pem
 
     <Directory /var/www/manager-html>
         AllowOverride All
