@@ -6,11 +6,11 @@ if [[ ! $(command -v mkcert) ]]; then
   echo "Installing mkcert"
   apt-get update && apt install -y wget libnss3-tools
 
-  LATEST_RELEASE_DOWNLOAD_URL=$(curl -s "https://api.github.com/repos/FiloSottile/mkcert/releases" | jq -r 'first | .assets[] | select(.name | contains("linux-amd64")) | .browser_download_url')
+  LATEST_RELEASE_DOWNLOAD_URL=$(curl -s "https://api.github.com/repos/FiloSottile/mkcert/releases" | jq -r 'first | .assets[] | select(.name | contains("linux-arm64")) | .browser_download_url')
   printf "$LATEST_RELEASE_DOWNLOAD_URL"
 
   wget "$LATEST_RELEASE_DOWNLOAD_URL"
-  mv mkcert-v*-linux-amd64 mkcert
+  mv mkcert-v*-linux-arm64 mkcert
   chmod a+x mkcert
   mv mkcert /usr/local/bin/
 fi
