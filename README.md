@@ -133,6 +133,7 @@ Other commands:
 * `n snapshot-load $name`: Drops the current site and override it with the data from a snapshot
 * `n reset-site`: Drops the current site and creates a new one from scratch
 * `n pull`: Pull every git repository inside `repos/`
+* `n trunk` | `n alpha` | `n release`: Set every git repository inside `repos/` to the specified git branch and rebuild assets
 * `sites-add`, `sites-drop`, `sites-list`: See Additional Sites section below
 * `n setup-newspack-network`: Sets up the connections of Newspack Network and Distributor plugins between all active sites
 * `n cd-install`: Install the handy `ncd` function to your terminal. See section below.
