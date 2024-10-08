@@ -191,10 +191,46 @@ case $1 in
         ;;
     pull)
         for dir in repos/*/; do
-        cd "$dir"
+        cd "$NABSPATH/$dir"
         if [ -d ".git" ]; then
             echo "Updating repository: $dir"
             git pull
+        fi
+        cd ..
+        done
+        ;;
+    trunk)
+        for dir in repos/*/; do
+        cd "$NABSPATH/$dir"
+        if [ -d ".git" ]; then
+            git checkout trunk || git checkout master
+            echo "Updating repository to `trunk`: $dir"
+            git pull
+            composer install && npm run build
+        fi
+        cd ..
+        done
+        ;;
+    alpha)
+        for dir in repos/*/; do
+        cd "$NABSPATH/$dir"
+        if [ -d ".git" ]; then
+            git checkout alpha
+            echo "Updating repository to `alpha`: $dir"
+            git pull
+            composer install && npm run build
+        fi
+        cd ..
+        done
+        ;;
+    release)
+        for dir in repos/*/; do
+        cd "$NABSPATH/$dir"
+        if [ -d ".git" ]; then
+            git checkout release
+            echo "Updating repository to `release`: $dir"
+            git pull
+            composer install && npm run build
         fi
         cd ..
         done
