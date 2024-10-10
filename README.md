@@ -69,7 +69,7 @@ n install
 The first time you set up your environment you might want to build all the projects. You can do this by:
 
 ```BASH
-n build all
+n ci-build all
 ```
 
 ## The N script
@@ -82,7 +82,8 @@ Build one specific project:
 n build theme # Builds the newspack-theme repo
 n build newspack-plugin # Builds the main plugin
 n build newsletters # You can also omit the 'newspack-' prefix from plugins
-n build # Bulds the project you are currently in
+n build # Builds the project you are currently in
+n ci-build # Runs npm ci --legacy-peer-deps and builds the project you are currently in
 ```
 
 Watch and run tests on projects:
@@ -133,6 +134,7 @@ Other commands:
 * `n snapshot-load $name`: Drops the current site and override it with the data from a snapshot
 * `n reset-site`: Drops the current site and creates a new one from scratch
 * `n pull`: Pull every git repository inside `repos/`
+* `n trunk` | `n alpha` | `n release` | `n branch $branch-name`: Set every git repository inside `repos/` to the specified git branch and rebuild assets
 * `sites-add`, `sites-drop`, `sites-list`: See Additional Sites section below
 * `n setup-newspack-network`: Sets up the connections of Newspack Network and Distributor plugins between all active sites
 * `n cd-install`: Install the handy `ncd` function to your terminal. See section below.
