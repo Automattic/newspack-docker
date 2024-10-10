@@ -21,7 +21,7 @@ add_filter(
  * Description: Disable SSL for local WP development
  */
 
- add_filter(
+add_filter(
 	'http_request_args',
 	function( $r ) {
 		$r['sslverify']          = false;
