@@ -1,8 +1,8 @@
+import "./setup";
+
 import { test, expect } from "@playwright/test";
-import "dotenv/config";
 
 const URL = process.env.SITE_URL;
-console.log(`Running tests against ${URL}`);
 
 test("Campaigns", async ({ page }) => {
   // Log in to the admin dashboard.
