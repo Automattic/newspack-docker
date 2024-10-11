@@ -1,21 +1,12 @@
 import "./setup";
 
 import { test, expect } from "@playwright/test";
+import { logIn } from "./utils";
 
 const URL = process.env.SITE_URL;
 
 test("Create and view a prompt", async ({ page }) => {
-  // Log in to the admin dashboard.
-  await page.goto(`${URL}/wp-login.php`);
-  await page.getByLabel("Username or Email Address").click();
-  await page
-    .getByLabel("Username or Email Address")
-    .fill(process.env.ADMIN_USER);
-  await page.getByLabel("Password", { exact: true }).click();
-  await page
-    .getByLabel("Password", { exact: true })
-    .fill(process.env.ADMIN_PASSWORD);
-  await page.getByRole("button", { name: "Log In" }).click();
+  logIn(page);
 
   // Go to Campaigns wizard.
   await page
