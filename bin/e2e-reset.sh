@@ -6,13 +6,21 @@ if [ -f /var/scripts/.e2e-env ]; then
 fi
 
 echo ""
+echo "Making sure all necessary plugins are active"
+wp  --allow-root --skip-plugins --skip-themes plugin activate newspack-plugin newspack-blocks newspack-popups newspack-ads newspack-newsletters
+
+echo ""
+echo "Enabling RAS"
+wp  --allow-root --skip-plugins --skip-themes option set newspack_reader_activation_enabled 1
+
+echo ""
 if [[ -z "$ATOMIC_SITE_ID" ]]; then
     echo "Installing the Newspack E2E plugin…"
     cp -r /var/scripts/e2e-plugin.php $(wp --allow-root --skip-plugins --skip-themes eval 'echo ABSPATH;')/wp-content/plugins/e2e-plugin.php
 else
     echo "Running on Atomic site, e2e-plugin is already there."
 fi
-wp  --allow-root plugin activate e2e-plugin
+wp --allow-root  --skip-plugins --skip-themes plugin activate e2e-plugin
 
 echo ""
 echo "Selective resetting for E2E tests…"
