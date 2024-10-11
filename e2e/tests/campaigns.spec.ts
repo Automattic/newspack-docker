@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 
 const URL = process.env.SITE_URL;
 
-test("Campaigns", async ({ page }) => {
+test("Create and view a prompt", async ({ page }) => {
   // Log in to the admin dashboard.
   await page.goto(`${URL}/wp-login.php`);
   await page.getByLabel("Username or Email Address").click();
