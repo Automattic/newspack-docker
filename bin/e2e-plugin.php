@@ -16,3 +16,69 @@ defined( 'ABSPATH' ) || exit;
 
 // Prevent the admin email confirmation screen
 add_filter('admin_email_check_interval', '__return_false');
+
+// Register custom post type for email logs.
+add_action('init', function() {
+    $args = [
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => ['slug' => 'email_log'],
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => ['title', 'editor', 'author', 'custom-fields']
+    ];
+    register_post_type('email_log', $args);
+});
+
+// Save outgoing emails as email_log CPT.
+add_action('wp_mail', function($attributes) {
+    $post_data = [
+        'post_title'   => $attributes['subject'] . ' (' . $attributes['to'] . ')',
+        'post_content' => $attributes['message'],
+        'post_status'  => 'publish',
+        'post_type'    => 'email_log',
+    ];
+    wp_insert_post($post_data);
+});
+
+// Display all sent emails.
+add_action('init', function() {
+    if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/_email') {
+        header('Content-Type: text/html');
+        ?>
+            <html><head><title>Email Sendbox</title></head><body>
+            <h1>Email Sendbox</h1>
+        <?php
+
+        global $wpdb;
+
+        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'email_log'", ARRAY_A);
+
+        if (!empty($results)) {
+            ?><h2>Sent Emails</h2><?php
+            foreach ($results as $email) {
+                ?>
+                    <br>
+                    <div>
+                        <details>
+                            <summary>
+                                <strong><?php echo esc_html($email['post_title']); ?></strong> - <?php echo esc_html($email['post_date']); ?>
+                            </summary>
+                            <?php echo $email['post_content']; ?>
+                        </details>
+                    </div>
+                <?php
+            }
+        } else {
+            ?><p>No emails found.</p><?php
+        }
+        ?></body></html><?php
+
+        exit;
+    }
+});
