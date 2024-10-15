@@ -30,6 +30,17 @@ commands:
           path: e2e/playwright-report
       - store_artifacts:
           path: e2e/test-results
+      - run:
+          name: Deploy to GitHub Pages
+          command: |
+            git config user.name "$GIT_COMMITTER_NAME"
+            git config user.email "$GITHUB_COMMITER_EMAIL"
+            git checkout -b gh-pages
+            cp -R playwright-report/* gh-pages/
+            cd gh-pages
+            git add --all
+            git commit -m "Deploy Playwright Report [skip ci]"
+            git push --set-upstream origin gh-pages
 
 executors:
   docker-playwright:
