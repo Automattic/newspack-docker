@@ -36,6 +36,7 @@ test("Register on the site", async ({ page }) => {
   /**
    * Go to the email client to get the log in link.
    */
+  await page.waitForTimeout(1000); // Wait a moment to let the server save the email.
   await page.goto(`${URL}/_email`);
   await page.getByText(`Authorization code (${emailAddress}`).click();
   const logInElement = await page.getByRole("link", { name: "Log in" });
