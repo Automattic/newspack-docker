@@ -70,7 +70,6 @@ add_action('init', function() {
         $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'email_log' ORDER BY post_date DESC", ARRAY_A);
 
         if (!empty($results)) {
-            ?><h2>Sent Emails</h2><?php
             foreach ($results as $email) {
                 ?>
                     <br>

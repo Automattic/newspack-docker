@@ -4,8 +4,20 @@ import { test, expect } from "@playwright/test";
 
 const URL = process.env.SITE_URL;
 
-const randomString = () => Math.random().toString(36).substring(2, 8);
+const randomString = (length = 8) =>
+  Math.random().toString(36).substring(2, length);
 const emailAddress = `test-${randomString()}@example.com`;
+
+const goToEmailClient = async (page, cachebust = "") => {
+  await page.waitForTimeout(1000); // Wait a moment to let the server save the email.
+  await page.goto(`${URL}/_email?cachebust=${cachebust}`);
+};
+
+const clickLinkURL = async (page, linkText) => {
+  const logInElement = await page.getByRole("link", { name: linkText });
+  const logInURL = await logInElement.getAttribute("href");
+  await page.goto(logInURL);
+};
 
 test("Register on the site", async ({ page }) => {
   /**
@@ -19,7 +31,6 @@ test("Register on the site", async ({ page }) => {
     .fill(emailAddress);
   await page.getByRole("button", { name: "Sign up" }).click();
   await page.waitForURL(/my-account/);
-  await page.waitForTimeout(300);
   await page.getByText("Log out").click();
 
   /**
@@ -36,12 +47,9 @@ test("Register on the site", async ({ page }) => {
   /**
    * Go to the email client to get the log in link.
    */
-  await page.waitForTimeout(1000); // Wait a moment to let the server save the email.
-  await page.goto(`${URL}/_email?cachebust=${emailAddress}`);
+  await goToEmailClient(page, emailAddress);
   await page.getByText(`Authorization code (${emailAddress}`).click();
-  const logInElement = await page.getByRole("link", { name: "Log in" });
-  const logInURL = await logInElement.getAttribute("href");
-  await page.goto(logInURL);
+  await clickLinkURL(page, "Log in");
 
   /**
    * Now the user is authenticated via the magic link, they can update their name.
@@ -52,4 +60,39 @@ test("Register on the site", async ({ page }) => {
   await page.getByRole("button", { name: "Save changes" }).click();
   await expect(page.getByText("Account details changed")).toBeVisible();
   await expect(page.getByPlaceholder("Your Name")).toHaveValue("John Doe");
+
+  /**
+   * Reader sets up a password.
+   */
+  await page
+    .getByRole("link", { name: "Create a Password Email me a" })
+    .click();
+  await expect(
+    page.getByText(
+      "Please check your email inbox for instructions on how to set a new password."
+    )
+  ).toBeVisible();
+  await goToEmailClient(page, emailAddress);
+  await page.getByText(`Set a new password (${emailAddress}`).click();
+  await clickLinkURL(page, "Set new password");
+
+  const password = randomString(14);
+  await page.getByLabel("New password *", { exact: true }).fill(password);
+  await page.getByLabel("Re-enter new password *").fill(password);
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByText("Your password has been reset")).toBeVisible();
+
+  /**
+   * Reader logs in using the password.
+   */
+  await page.getByRole("link", { name: "Sign In", exact: true }).click();
+  await page
+    .getByRole("link", { name: "sign in using a password" })
+    .nth(1)
+    .click();
+  await page
+    .getByRole("textbox", { name: "Enter your password" })
+    .fill(password);
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.waitForURL(/my-account/);
 });

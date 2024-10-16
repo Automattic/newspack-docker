@@ -47,7 +47,6 @@ test("Create and view a prompt", async ({ page }) => {
       .getByRole("button", { name: "draft This is an overlay" })
   ).toBeVisible();
   await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
-  await page.waitForTimeout(200);
   await page.getByLabel("Close Preview").click();
 
   // Publish the prompt.
@@ -63,7 +62,6 @@ test("Create and view a prompt", async ({ page }) => {
   // Go to the front-end and verify the prompt is visible.
   await page.goto(URL);
   await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
-  await page.waitForTimeout(200);
   await page.getByLabel("Close Pop-up").click();
   await expect(page.getByText(CAMPAIGN_BODY)).not.toBeVisible();
 });
