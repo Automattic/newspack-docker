@@ -23,6 +23,10 @@ fi
 wp --allow-root  --skip-plugins --skip-themes plugin activate e2e-plugin
 
 echo ""
+echo "Removing saved emails…"
+wp --allow-root --skip-plugins --skip-themes post delete $(wp --allow-root --skip-plugins --skip-themes post list --post_type=email_log --format=ids) --force || true
+
+echo ""
 echo "Selective resetting for E2E tests…"
 
 echo ""

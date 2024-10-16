@@ -48,7 +48,7 @@ add_action('wp_mail', function($attributes) {
 
 // Display all sent emails.
 add_action('init', function() {
-    if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/_email') {
+    if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/_email') === 0) {
         header('Content-Type: text/html');
         ?>
             <html><head><title>Email Sendbox</title></head><body>
