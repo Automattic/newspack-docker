@@ -3,6 +3,7 @@ repos
 logs
 html
 data
+!docs/data
 bin/secrets.json
 snapshots
 manager-html
