@@ -36,11 +36,11 @@ commands:
             git config user.name "$GIT_COMMITTER_NAME"
             git config user.email "$GITHUB_COMMITER_EMAIL"
             git checkout -b gh-pages
-            cp -R playwright-report/* gh-pages/
-            cd gh-pages
+            mv e2e/playwright-report docs
+            cd docs
             git add --all
             git commit -m "Deploy Playwright Report [skip ci]"
-            git push --set-upstream origin gh-pages
+            git push "https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git" --force
 
 executors:
   docker-playwright:
