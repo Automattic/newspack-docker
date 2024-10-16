@@ -19,6 +19,36 @@ const clickLinkURL = async (page, linkText) => {
   await page.goto(logInURL);
 };
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    document.addEventListener(
+      "click",
+      (event) => {
+        const clickWidth = 30;
+        const clickIndicator = document.createElement("div");
+        clickIndicator.style.position = "absolute";
+        clickIndicator.style.width = `${clickWidth}px`;
+        clickIndicator.style.height = `${clickWidth}px`;
+        clickIndicator.style.backgroundColor = "red";
+        clickIndicator.style.borderRadius = "50%";
+        clickIndicator.style.top = `${event.clientY - clickWidth / 2}px`;
+        clickIndicator.style.left = `${event.clientX - clickWidth / 2}px`;
+        clickIndicator.style.zIndex = "9999";
+        clickIndicator.style.pointerEvents = "none";
+        clickIndicator.style.transition = "opacity 1s ease-out";
+        document.body.appendChild(clickIndicator);
+
+        // Remove the indicator
+        setTimeout(() => {
+          clickIndicator.style.opacity = "0";
+          setTimeout(() => clickIndicator.remove(), 1000);
+        }, 1000);
+      },
+      { capture: true }
+    );
+  });
+});
+
 test("Register on the site", async ({ page }) => {
   /**
    * Create a new reader account using the "Sign In" header link.
