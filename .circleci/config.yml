@@ -38,7 +38,6 @@ commands:
             git checkout -b gh-pages
             mv e2e/playwright-report docs
             cd docs
-            sed -i 's|src="data/|src="docs/|g' index.html
             git add --all
             git commit -m "Deploy Playwright Report [skip ci]"
             git push "https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git" --force
