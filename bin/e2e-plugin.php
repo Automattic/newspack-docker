@@ -32,11 +32,15 @@ add_action('init', function() {
         'menu_position'      => null,
         'supports'           => ['title', 'editor', 'author', 'custom-fields']
     ];
-    register_post_type('email_log', $args);
+    $result = register_post_type('email_log', $args);
+    if (is_wp_error($result)) {
+        error_log( 'Failed to create the email_log CPT.' );
+    }
 });
 
 // Save outgoing emails as email_log CPT.
 add_action('wp_mail', function($attributes) {
+    $attributes['message'] = preg_replace('/<\/title>.*?<div/s', '</title><div', $attributes['message']);
     $post_data = [
         'post_title'   => $attributes['subject'] . ' (' . $attributes['to'] . ')',
         'post_content' => $attributes['message'],
@@ -53,11 +57,17 @@ add_action('init', function() {
         ?>
             <html><head><title>Email Sendbox</title></head><body>
             <h1>Email Sendbox</h1>
+            <style>
+                .email-content{
+                    border: 1px solid gray;
+                    margin: 20px 0;
+                }
+            </style>
         <?php
 
         global $wpdb;
 
-        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'email_log'", ARRAY_A);
+        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'email_log' ORDER BY post_date DESC", ARRAY_A);
 
         if (!empty($results)) {
             ?><h2>Sent Emails</h2><?php
@@ -69,7 +79,9 @@ add_action('init', function() {
                             <summary>
                                 <strong><?php echo esc_html($email['post_title']); ?></strong> - <?php echo esc_html($email['post_date']); ?>
                             </summary>
-                            <?php echo $email['post_content']; ?>
+                            <div class="email-content">
+                                <?php echo $email['post_content']; ?>
+                            </div>
                         </details>
                     </div>
                 <?php
