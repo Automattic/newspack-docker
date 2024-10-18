@@ -62,4 +62,12 @@ test("Create and view a prompt", async ({ page }) => {
   await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
   await page.getByLabel("Close Pop-up").click();
   await expect(page.getByText(CAMPAIGN_BODY)).not.toBeVisible();
+
+  // Delete the prompt.
+  await page.goto("/wp-admin/admin.php?page=newspack-popups-wizard#/campaigns");
+  await page.getByLabel("More options").click();
+  await page.getByRole("menuitem", { name: "Delete" }).click();
+  await expect(
+    page.getByText("No active prompts in this segment.")
+  ).not.toBeVisible();
 });
