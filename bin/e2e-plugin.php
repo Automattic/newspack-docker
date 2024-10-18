@@ -40,9 +40,15 @@ add_action('init', function() {
 
 // Save outgoing emails as email_log CPT.
 add_action('wp_mail', function($attributes) {
+    $recipient = $attributes['to'];
+    // Only save emails sent to non-admin users.
+    $user = get_user_by('email', $recipient);
+    if ($user && in_array('administrator', $user->roles)) {
+        return;
+    }
     $attributes['message'] = preg_replace('/<\/title>.*?<div/s', '</title><div', $attributes['message']);
     $post_data = [
-        'post_title'   => $attributes['subject'] . ' (' . $attributes['to'] . ')',
+        'post_title'   => $attributes['subject'] . ' (' . $recipient . ')',
         'post_content' => $attributes['message'],
         'post_status'  => 'publish',
         'post_type'    => 'email_log',
