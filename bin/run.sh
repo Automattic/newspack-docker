@@ -42,6 +42,9 @@ chmod +x /var/scripts/*
 # Memcached
 cp /var/scripts/object-cache.php /var/www/html/wp-content/
 
+# Batcache
+cp /var/scripts/advanced-cache.php /var/www/html/wp-content/
+
 # Clean up pre-existing Apache pid file
 APACHE_PID_FILE="/run/apache2/apache2.pid"
 if [ -e $APACHE_PID_FILE ]; then
