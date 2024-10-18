@@ -3,8 +3,6 @@ import "./setup";
 import { test, expect } from "@playwright/test";
 import { logIn } from "./utils";
 
-const URL = process.env.SITE_URL;
-
 test("Create and view a prompt", async ({ page }) => {
   logIn(page);
 
@@ -60,7 +58,7 @@ test("Create and view a prompt", async ({ page }) => {
   ).toBeVisible();
 
   // Go to the front-end and verify the prompt is visible.
-  await page.goto(URL);
+  await page.goto("/");
   await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
   await page.getByLabel("Close Pop-up").click();
   await expect(page.getByText(CAMPAIGN_BODY)).not.toBeVisible();

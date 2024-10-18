@@ -8,8 +8,6 @@ import {
   clickLinkURL,
 } from "./utils";
 
-const URL = process.env.SITE_URL;
-
 const emailAddress = `test-${randomString()}@example.com`;
 
 test.beforeEach(addClickIndicator);
@@ -18,7 +16,7 @@ test("Register on the site", async ({ page }) => {
   /**
    * Create a new reader account using the "Sign In" header link.
    */
-  await page.goto(URL);
+  await page.goto("/");
   await page.getByRole("link", { name: "Sign In" }).click();
   await page.getByRole("link", { name: "I don't have an account" }).click();
   await page
@@ -31,7 +29,7 @@ test("Register on the site", async ({ page }) => {
   /**
    * Log in as the previously created reader.
    */
-  await page.goto(URL);
+  await page.goto("/");
   await page.getByRole("link", { name: "Sign In" }).click();
   await page
     .getByRole("textbox", { name: "Enter your email address" })
