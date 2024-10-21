@@ -1,27 +1,13 @@
 import "./setup";
 
-const URL = process.env.SITE_URL;
-
-export const logIn = async (page) => {
-  // Log in to the admin dashboard.
-  await page.goto(`${URL}/wp-login.php`);
-  await page.getByLabel("Username or Email Address").click();
-  await page
-    .getByLabel("Username or Email Address")
-    .fill(process.env.ADMIN_USER);
-  await page.getByLabel("Password", { exact: true }).click();
-  await page
-    .getByLabel("Password", { exact: true })
-    .fill(process.env.ADMIN_PASSWORD);
-  await page.getByRole("button", { name: "Log In" }).click();
-};
-
 export const randomString = (length = 8) =>
-  Math.random().toString(36).substring(2, length);
+  Math.random()
+    .toString(36)
+    .substring(2, length + 2);
 
 export const goToEmailClient = async (page, cachebust = "") => {
   await page.waitForTimeout(1000); // Wait a moment to let the server save the email.
-  await page.goto(`${URL}/_email?cachebust=${cachebust}`);
+  await page.goto(`/_email?cachebust=${cachebust}`);
 };
 
 export const clickLinkURL = async (page, linkText) => {

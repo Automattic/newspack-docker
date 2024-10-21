@@ -9,17 +9,18 @@
  * Text Domain: newspack-e2e-plugin
  * Domain Path: /languages/
  *
- * @package         Newspack_E2E_Plugin
+ * @package Newspack_E2E_Plugin
  */
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 // Prevent the admin email confirmation screen
 add_filter('admin_email_check_interval', '__return_false');
 
 // Register custom post type for email logs.
-add_action('init', function() {
-    $args = [
+add_action(
+    'init', function () {
+        $args = [
         'public'             => false,
         'publicly_queryable' => false,
         'show_ui'            => true,
@@ -31,36 +32,87 @@ add_action('init', function() {
         'hierarchical'       => false,
         'menu_position'      => null,
         'supports'           => ['title', 'editor', 'author', 'custom-fields']
-    ];
-    $result = register_post_type('email_log', $args);
-    if (is_wp_error($result)) {
-        error_log( 'Failed to create the email_log CPT.' );
+        ];
+        $result = register_post_type('email_log', $args);
+        if (is_wp_error($result)) {
+            error_log('Failed to create the email_log CPT.');
+        }
+    }
+);
+
+// Enable logout without nonce.
+add_action('init', function() {
+    if (isset($_GET['action']) && $_GET['action'] === 'logout_without_nonce') {
+        wp_logout();
+        wp_redirect(home_url());
+        exit;
     }
 });
 
-// Save outgoing emails as email_log CPT.
-add_action('wp_mail', function($attributes) {
-    $recipient = $attributes['to'];
-    // Only save emails sent to non-admin users.
-    $user = get_user_by('email', $recipient);
-    if ($user && in_array('administrator', $user->roles)) {
-        return;
+
+// Add a button in the admin panel to reset the site.
+add_action(
+    'admin_menu', function () {
+        add_menu_page(
+            'Reset E2E site',
+            'Reset E2E site',
+            'manage_options',
+            'reset-e2e-site',
+            function () {
+                ?>
+            <div class="wrap">
+                <h1>Reset E2E site</h1>
+                <form method="post" action="">
+                        <?php submit_button('Reset Site'); ?>
+                </form>
+            </div>
+                <?php
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['reset-now'])) {
+                    $output = null;
+                    $retval = null;
+                    if (!file_exists('/var/scripts/e2e-reset.sh')) {
+                        exec('/srv/htdocs/e2e-reset.sh', $output, $retval); // On Atomic.
+                    } else {
+                        exec('/var/scripts/e2e-reset.sh', $output, $retval); // Here, on newspack-docker.
+                    }
+                    if ($retval !== 0) {
+                        echo '<div class="notice notice-error is-dismissible"><p>Site reset failed.</p></div>';
+                    } else {
+                        echo '<div class="notice notice-success is-dismissible"><p>Site reset successfull.</p></div>';
+                    }
+                    echo '<pre>' . htmlspecialchars(print_r($output, true)) . '</pre>';
+                }
+            }
+        );
     }
-    $attributes['message'] = preg_replace('/<\/title>.*?<div/s', '</title><div', $attributes['message']);
-    $post_data = [
+);
+
+// Save outgoing emails as email_log CPT.
+add_action(
+    'wp_mail', function ($attributes) {
+        $recipient = $attributes['to'];
+        // Only save emails sent to non-admin users.
+        $user = get_user_by('email', $recipient);
+        if ($user && in_array('administrator', $user->roles)) {
+            return;
+        }
+        $attributes['message'] = preg_replace('/<\/title>.*?<div/s', '</title><div', $attributes['message']);
+        $post_data = [
         'post_title'   => $attributes['subject'] . ' (' . $recipient . ')',
         'post_content' => $attributes['message'],
         'post_status'  => 'publish',
         'post_type'    => 'email_log',
-    ];
-    wp_insert_post($post_data);
-});
+        ];
+        wp_insert_post($post_data);
+    }
+);
 
 // Display all sent emails.
-add_action('init', function() {
-    if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/_email') === 0) {
-        header('Content-Type: text/html');
-        ?>
+add_action(
+    'init', function () {
+        if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/_email') === 0) {
+            header('Content-Type: text/html');
+            ?>
             <html><head><title>Email Sendbox</title></head><body>
             <h1>Email Sendbox</h1>
             <style>
@@ -69,15 +121,15 @@ add_action('init', function() {
                     margin: 20px 0;
                 }
             </style>
-        <?php
+            <?php
 
-        global $wpdb;
+            global $wpdb;
 
-        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'email_log' ORDER BY post_date DESC", ARRAY_A);
+            $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'email_log' ORDER BY post_date DESC", ARRAY_A);
 
-        if (!empty($results)) {
-            foreach ($results as $email) {
-                ?>
+            if (!empty($results)) {
+                foreach ($results as $email) {
+                    ?>
                     <br>
                     <div>
                         <details>
@@ -89,13 +141,14 @@ add_action('init', function() {
                             </div>
                         </details>
                     </div>
-                <?php
+                    <?php
+                }
+            } else {
+                ?><p>No emails found.</p><?php
             }
-        } else {
-            ?><p>No emails found.</p><?php
-        }
-        ?></body></html><?php
+            ?></body></html><?php
 
         exit;
+        }
     }
-});
+);

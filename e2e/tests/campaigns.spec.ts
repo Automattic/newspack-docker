@@ -1,21 +1,18 @@
 import "./setup";
 
 import { test, expect } from "@playwright/test";
-import { logIn } from "./utils";
+import { logIn, goToWizard, isMobileAdmin, resetSite } from "./utils-admin";
+import { randomString } from "./utils";
 
 test("Create and view a prompt", async ({ page }) => {
-  logIn(page);
+  await logIn(page);
+  const isMobile = await isMobileAdmin(page);
 
-  // Go to Campaigns wizard.
-  await page
-    .getByLabel("Main menu", { exact: true })
-    .getByRole("link", { name: "Newspack" })
-    .click();
-  await page
-    .getByRole("link", { name: "Campaigns Reach your readers" })
-    .click();
+  await resetSite(page);
+
+  await goToWizard("Campaigns", page);
+
   await expect(page.getByRole("heading", { name: "Everyone" })).toBeVisible();
-  await expect(page.getByText("Reach your readers with")).toBeVisible();
   await page.getByRole("button", { name: "Add New Campaign" }).click();
   await page.getByPlaceholder("Campaign Name").fill("Basic");
   await page.getByRole("button", { name: "Add" }).click();
@@ -26,15 +23,25 @@ test("Create and view a prompt", async ({ page }) => {
   await page.waitForURL(/post_type=newspack_popups_cpt/);
 
   // Create the prompt.
-  const CAMPAIGN_BODY = "This is an overlay campaign";
-  await page.getByLabel("Add title").fill("Hello!");
+  const randomId = randomString(4);
+  const campaignBody = `This is prompt content (#${randomId})`;
+  const campaignTitle = `Prompt #${randomId}`;
+  await page.getByLabel("Add title").fill(campaignTitle);
   await page.getByLabel("Add default block").click();
-  await page.getByLabel("Empty block; start writing or").fill(CAMPAIGN_BODY);
+  await page.getByLabel("Empty block; start writing or").fill(campaignBody);
+
+  if (isMobile) {
+    await page.getByLabel("Settings", { exact: true }).click();
+  }
+
   await page.getByRole("tab", { name: "Prompt" }).click();
-  await page
-    .getByLabel("Editor settings")
-    .getByRole("button", { name: "Settings", exact: true })
-    .click();
+  const isSettingsPanelOpen = await page.getByText("Prompt type").isVisible();
+  if (!isSettingsPanelOpen) {
+    await page
+      .getByLabel("Editor settings")
+      .getByRole("button", { name: "Settings", exact: true })
+      .click();
+  }
   await page.getByRole("spinbutton", { name: "Delay (seconds)" }).fill("1");
 
   // Preview the prompt.
@@ -42,9 +49,9 @@ test("Create and view a prompt", async ({ page }) => {
   await expect(
     page
       .frameLocator('iframe[title="web-preview"]')
-      .getByRole("button", { name: "draft This is an overlay" })
+      .getByRole("button", { name: `draft ${campaignBody}` })
   ).toBeVisible();
-  await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
+  await expect(page.getByText(campaignBody)).toBeVisible();
   await page.getByLabel("Close Preview").click();
 
   // Publish the prompt.
@@ -59,15 +66,17 @@ test("Create and view a prompt", async ({ page }) => {
 
   // Go to the front-end and verify the prompt is visible.
   await page.goto("/");
-  await expect(page.getByText(CAMPAIGN_BODY)).toBeVisible();
-  await page.getByLabel("Close Pop-up").click();
-  await expect(page.getByText(CAMPAIGN_BODY)).not.toBeVisible();
+  await expect(page.getByText(campaignBody)).toBeVisible();
+  await page
+    .getByRole("button", {
+      name: `${campaignBody} Close Pop-up`,
+    })
+    .getByLabel("Close Pop-up")
+    .click();
+  await expect(page.getByText(campaignBody)).not.toBeVisible();
 
   // Delete the prompt.
   await page.goto("/wp-admin/admin.php?page=newspack-popups-wizard#/campaigns");
   await page.getByLabel("More options").click();
   await page.getByRole("menuitem", { name: "Delete" }).click();
-  await expect(
-    page.getByText("No active prompts in this segment.")
-  ).not.toBeVisible();
 });

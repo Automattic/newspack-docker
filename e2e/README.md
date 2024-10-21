@@ -10,11 +10,10 @@ Follow the "Setting up a test site" instructions from this doc.
 
 - Set site URL as `SITE_URL` in the `.env` file (see `.env-sample`).
 - Set up the site for testing: install and activate the `newspack-plugin` and run `wp newspack setup` CLI command
+- run `/var/scripts/e2e-reset.sh` in the docker container – this will install the special `e2e-plugin`
 - run `npm t` for a single test run
 - run `npm run test:ui` for a test run with UI
 - run `npm run codegen -- <site-url>` for a test code generation UI
-
-After running the tests, run `/var/scripts/e2e-reset.sh` in the docker container (`n sh` to enter it, then navigate to the WordPress files (`/var/www/additional-sites-html/e2e/`)) to reset the data.
 
 ## CI testing
 

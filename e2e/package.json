@@ -6,7 +6,8 @@
     "copy-env-file": "cp .env ../bin/.e2e-env",
     "test": "npm run copy-env-file && playwright test",
     "test:ui": "npm run copy-env-file && playwright test --ui",
-    "codegen": "playwright codegen"
+    "codegen": "playwright codegen",
+    "codegen:mobile": "playwright codegen --viewport-size=375,667"
   },
   "keywords": [],
   "author": "",

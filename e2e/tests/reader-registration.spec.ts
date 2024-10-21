@@ -7,12 +7,17 @@ import {
   goToEmailClient,
   clickLinkURL,
 } from "./utils";
+import { logIn, logOut, resetSite } from "./utils-admin";
 
 const emailAddress = `test-${randomString()}@example.com`;
 
 test.beforeEach(addClickIndicator);
 
 test("Register on the site", async ({ page }) => {
+  await logIn(page);
+  await resetSite(page);
+  await logOut(page);
+
   /**
    * Create a new reader account using the "Sign In" header link.
    */
