@@ -41,13 +41,15 @@ add_action(
 );
 
 // Enable logout without nonce.
-add_action('init', function() {
-    if (isset($_GET['action']) && $_GET['action'] === 'logout_without_nonce') {
-        wp_logout();
-        wp_redirect(home_url());
-        exit;
+add_action(
+    'init', function () {
+        if (isset($_GET['action']) && $_GET['action'] === 'logout_without_nonce') {
+            wp_logout();
+            wp_redirect(home_url());
+            exit;
+        }
     }
-});
+);
 
 
 // Add a button in the admin panel to reset the site.
