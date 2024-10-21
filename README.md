@@ -201,9 +201,17 @@ Adminer is available at http://localhost:8088
 
 Connect to Server `db`, user `root` and password defined in your local `.env` file.
 
-## Memcached
+## Cache
+
+There are two layers of cache available in the Docker env, to better mimic production environments.
+
+### Memcached
 
 By default, Memcached plugin is enabled. If you want to disable it, simply delete the `html/wp-content/object-cache.php` file.
+
+### Batcache
+
+Batcache is also enabled by default. It relies on memcached to cache the end output of pages. It's enabled by placing the `advanced-cache.php` file in the `wp-content` folder and by defining the `WP_CACHE` constant to `true`.
 
 ## X-Debug
 

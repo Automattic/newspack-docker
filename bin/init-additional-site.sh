@@ -37,6 +37,7 @@ if [ ! -f "/var/www/additional-sites-html/$SITE_NAME/wp-config.php" ]; then
 	wp config set WP_AUTO_UPDATE_CORE true --raw --type=constant
 	wp config set AUTOMATIC_UPDATER_DISABLED true --raw --type=constant
 	wp config set WP_ENVIRONMENT_TYPE local --type=constant
+	wp config set WP_CACHE true --type=constant
 
 fi
 
