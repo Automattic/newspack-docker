@@ -7,11 +7,11 @@ fi
 
 echo ""
 echo "Making sure all necessary plugins are active"
-wp  --allow-root --skip-plugins --skip-themes plugin activate newspack-plugin newspack-blocks newspack-popups newspack-ads newspack-newsletters
+wp --allow-root --skip-plugins --skip-themes plugin activate newspack-plugin newspack-blocks newspack-popups newspack-ads newspack-newsletters
 
 echo ""
 echo "Enabling RAS"
-wp  --allow-root --skip-plugins --skip-themes option set newspack_reader_activation_enabled 1
+wp --allow-root --skip-plugins --skip-themes option set newspack_reader_activation_enabled 1
 
 echo ""
 if [[ -z "$ATOMIC_SITE_ID" ]]; then
