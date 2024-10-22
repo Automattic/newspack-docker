@@ -6,9 +6,10 @@ import {
   randomString,
   goToEmailClient,
   clickLinkURL,
+  randomEmailAddress,
 } from "./utils";
 
-const emailAddress = `test-${randomString()}@example.com`;
+const emailAddress = randomEmailAddress();
 
 test.beforeEach(addClickIndicator);
 

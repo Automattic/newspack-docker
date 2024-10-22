@@ -5,6 +5,8 @@ export const randomString = (length = 8) =>
     .toString(36)
     .substring(2, length + 2);
 
+export const randomEmailAddress = () => `test-${randomString()}@example.com`;
+
 export const goToEmailClient = async (page, cachebust = "") => {
   await page.waitForTimeout(1000); // Wait a moment to let the server save the email.
   await page.goto(`/_email?cachebust=${cachebust}`);
