@@ -79,4 +79,7 @@ test("Create and view a prompt", async ({ page }) => {
   await page.goto("/wp-admin/admin.php?page=newspack-popups-wizard#/campaigns");
   await page.getByLabel("More options").click();
   await page.getByRole("menuitem", { name: "Delete" }).click();
+  await expect(
+    page.getByText("No active prompts in this segment.")
+  ).toBeVisible();
 });

@@ -33,7 +33,7 @@ export const goToWizard = async (wizardName, page) => {
     .getByLabel("Main menu", { exact: true })
     .getByRole("link", { name: "Newspack" })
     .click();
-  await page.getByRole("link", { name: wizardName }).click();
+  await page.getByRole("link", { name: wizardName, exact: true }).click();
 };
 
 export const resetSite = async (page) => {
