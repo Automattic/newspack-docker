@@ -35,8 +35,3 @@ export const goToWizard = async (wizardName, page) => {
     .click();
   await page.getByRole("link", { name: wizardName, exact: true }).click();
 };
-
-export const resetSite = async (page) => {
-  await page.goto("/wp-admin/admin.php?page=reset-e2e-site&reset-now");
-  await expect(page.getByText("Site reset successfull.")).toBeVisible();
-};

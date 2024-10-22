@@ -18,7 +18,6 @@ commands:
             mkdir -p /root/.ssh
             echo "$SSH_KNOWN_HOST" > /root/.ssh/known_hosts
             sshpass -p "$SSH_USER_PASS" scp ./bin/e2e-plugin.php $SSH_USER@$SSH_HOST:/htdocs/wp-content/plugins/
-            sshpass -p "$SSH_USER_PASS" scp ./bin/e2e-reset.sh $SSH_USER@$SSH_HOST:/htdocs/e2e-reset.sh
             sshpass -p "$SSH_USER_PASS" ssh -v $SSH_USER@$SSH_HOST 'bash -s' < ./bin/e2e-reset.sh
       - run:
           name: Run tests

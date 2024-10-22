@@ -1,14 +1,12 @@
 import "./setup";
 
 import { test, expect } from "@playwright/test";
-import { logIn, goToWizard, isMobileAdmin, resetSite } from "./utils-admin";
+import { logIn, goToWizard, isMobileAdmin } from "./utils-admin";
 import { randomString } from "./utils";
 
 test("Create and view a prompt", async ({ page }) => {
   await logIn(page);
   const isMobile = await isMobileAdmin(page);
-
-  await resetSite(page);
 
   await goToWizard("Campaigns", page);
 

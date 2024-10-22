@@ -51,47 +51,6 @@ add_action(
     }
 );
 
-
-// Add a button in the admin panel to reset the site.
-add_action(
-    'admin_menu', function () {
-        add_menu_page(
-            'Reset E2E site',
-            'Reset E2E site',
-            'manage_options',
-            'reset-e2e-site',
-            function () {
-                ?>
-            <div class="wrap">
-                <h1>Reset E2E site</h1>
-                <form method="post" action="">
-                        <?php submit_button('Reset Site'); ?>
-                </form>
-            </div>
-                <?php
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['reset-now'])) {
-                    $output = null;
-                    $retval = null;
-                    if (file_exists('/var/scripts/e2e-reset.sh')) {
-                        exec('/var/scripts/e2e-reset.sh', $output, $retval); // Here, on newspack-docker.
-                    } else {
-                        // TODO: not executable on Atomic
-                        // needs to be a php script
-                        exec('/srv/htdocs/e2e-reset.sh', $output, $retval); // On Atomic.
-                    }
-                    echo '<pre>' . htmlspecialchars(print_r($retval, true)) . '</pre>';
-                    if ($retval !== 0) {
-                        echo '<div class="notice notice-error is-dismissible"><p>Site reset failed.</p></div>';
-                    } else {
-                        echo '<div class="notice notice-success is-dismissible"><p>Site reset successfull.</p></div>';
-                    }
-                    echo '<pre>' . htmlspecialchars(print_r($output, true)) . '</pre>';
-                }
-            }
-        );
-    }
-);
-
 // Save outgoing emails as email_log CPT.
 add_action(
     'wp_mail', function ($attributes) {
