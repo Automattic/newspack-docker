@@ -71,7 +71,9 @@ test("Register on the site", async ({ page }) => {
   await clickLinkURL(page, "Set new password");
 
   const password = randomString(14);
-  await page.getByLabel("New password *", { exact: true }).fill(password);
+  await page
+    .getByLabel("New password *Required", { exact: true })
+    .fill(password);
   await page.getByLabel("Re-enter new password *").fill(password);
   await page.getByRole("button", { name: "Save" }).click();
   await expect(page.getByText("Your password has been reset")).toBeVisible();
