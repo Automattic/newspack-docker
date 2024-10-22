@@ -23,7 +23,7 @@ test("Donations", async ({ page }) => {
   await getPageInIframe(page).getByLabel("First name *").fill("John");
   await getPageInIframe(page).getByLabel("Last name *").fill("Doe");
   await getPageInIframe(page).getByLabel("Email address *").fill(emailAddress);
-  await page.waitForTimeout(600); // For some reason, the "Continue" button seems to only be functional after a delay.
+  await page.waitForTimeout(1000); // For some reason, the "Continue" button seems to only be functional after a delay.
   await getPageInIframe(page).getByRole("button", { name: "Continue" }).click();
 
   await getStripeIframe(page, "#stripe-card-element")
