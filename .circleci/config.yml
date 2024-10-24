@@ -41,6 +41,18 @@ commands:
             git add --all
             git commit -m "Deploy Playwright Report [skip ci]"
             git push "https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git" --force
+      - run:
+          name: Notify about failure
+          command: |
+            CURRENT_GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+            if [[ "$CURRENT_GIT_BRANCH" == "trunk" ]]; then
+              curl \
+                --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ E2E tests have failed. Check <$CIRCLE_BUILD_URL|the artifacts> to verify.\"}}]}" \
+                -H "Content-type: application/json" \
+                -H "Authorization: Bearer $SLACK_AUTH_TOKEN" \
+                -X POST https://slack.com/api/chat.postMessage
+            fi
+          when: on_fail
 
 executors:
   docker-playwright:
@@ -48,13 +60,23 @@ executors:
       - image: mcr.microsoft.com/playwright:v1.42.0-jammy
 
 jobs:
-  stable:
+  main:
     executor: docker-playwright
     steps:
       - e2e
 
 workflows:
   version: 2
-  test-stable:
+  test-main:
     jobs:
-      - stable
+      - main
+  test-main-scheduled:
+    triggers:
+      - schedule:
+          cron: "0 7 * * 1-5" # Weekdays at 7am UTC / 2am EST / 11pm PST
+          filters:
+            branches:
+              only:
+                - trunk
+    jobs:
+      - main

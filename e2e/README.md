@@ -21,11 +21,15 @@ Will need a publicly accessible (or at least accessible for the CI server) test 
 
 [The credentials for the Atomic site currently used for the e2e testing.](https://mc.a8c.com/secret-store/?secret_id=12168)
 
-1. In addition to the variables from `.env-sample`, also define the following in the CircleCI project settings:
+1. Define all variables listed in `.env-sample` in the CircleCI project settings
+1. Also define the following:
    1. `SSH_USER` - simply a username string, e.g. `newspack-user`
    2. `SSH_HOST` - hostname of the platform, e.g. `ssh.myplatform.net`
    3. `SSH_USER_PASS` - SSH password
    4. `SSH_KNOWN_HOST` - this one you can get by connecting to the platform and copying the line added to the `/root/.ssh/known_hosts` file
+   5. `GITHUB_COMMITER_EMAIL`, `GIT_COMMITTER_NAME`, `GITHUB_TOKEN` – for GH pages deployment
+   6. `SLACK_AUTH_TOKEN`, `SLACK_CHANNEL_ID` – for Slack notifications
+
 2. Follow the "Setting up a test site" instructions from this doc.
 
 ## Setting up a test site (CI or local)
