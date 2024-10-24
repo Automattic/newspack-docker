@@ -47,8 +47,6 @@ wp --allow-root --skip-plugins --skip-themes term list newspack_popups_taxonomy 
 # Site setup - could be a testing scenario of its own some day, via UI.
 echo ""
 echo "Setup the site - Reader Revenue"
-WCGS_OPTION=$(jq -n --arg pk "$STRIPE_PUBLISHABLE_KEY" --arg sk "$STRIPE_SECRET_KEY" '{"enabled":"yes","testMode":true,"test_publishable_key":$pk,"test_secret_key":$sk}' | sed 's/\\"//g')
-wp --allow-root --skip-plugins --skip-themes option set woocommerce_stripe_settings "$WCGS_OPTION" --format=json
 wp --allow-root --skip-plugins --skip-themes post update $(wp --allow-root --skip-plugins --skip-themes option get newspack_donation_page_id) --post_status=publish
 # Create the donation products – this happens when the RR settings are saved in RR wizard.
 wp --allow-root --skip-themes eval "\Newspack\Donations::update_donation_product();"

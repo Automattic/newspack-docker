@@ -6,8 +6,8 @@ import { randomEmailAddress } from "./utils";
 const getPageInIframe = (page) =>
   page.frameLocator('iframe[name="newspack_modal_checkout"]');
 
-const getStripeIframe = (page, selector) =>
-  getPageInIframe(page).frameLocator(`${selector} iframe`);
+const getStripeIframe = (page) =>
+  getPageInIframe(page).frameLocator(`[title="Secure payment input frame"]`);
 
 const emailAddress = randomEmailAddress();
 
@@ -23,18 +23,24 @@ test("Donations", async ({ page }) => {
   await getPageInIframe(page).getByLabel("First name *").fill("John");
   await getPageInIframe(page).getByLabel("Last name *").fill("Doe");
   await getPageInIframe(page).getByLabel("Email address *").fill(emailAddress);
-  await page.waitForTimeout(1000); // For some reason, the "Continue" button seems to only be functional after a delay.
+
+  // HACK: till https://github.com/Automattic/newspack-blocks/pull/1921 is deployed.
+  await page.waitForTimeout(2000);
+
   await getPageInIframe(page).getByRole("button", { name: "Continue" }).click();
 
-  await getStripeIframe(page, "#stripe-card-element")
+  await getStripeIframe(page)
     .getByPlaceholder("1234 1234 1234 1234")
     .fill("4242 4242 4242 42424");
-  await getStripeIframe(page, "#stripe-exp-element")
-    .getByPlaceholder("MM / YY")
-    .fill("04 / 44");
-  await getStripeIframe(page, "#stripe-cvc-element")
-    .getByPlaceholder("CVC")
-    .fill("333");
+  await getStripeIframe(page).getByPlaceholder("MM / YY").fill("04 / 44");
+  await getStripeIframe(page).getByPlaceholder("CVC").fill("333");
+
+  // Depending on geo, Stripe may want a ZIP code, too.
+  const zipLocator = await getStripeIframe(page).getByPlaceholder("12345");
+  if (await zipLocator.isVisible()) {
+    await getStripeIframe(page).getByPlaceholder("12345").fill("12345");
+  }
+
   await getPageInIframe(page)
     .getByRole("button", { name: "Donate now" })
     .click();

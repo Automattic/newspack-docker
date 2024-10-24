@@ -32,6 +32,7 @@ Will need a publicly accessible (or at least accessible for the CI server) test 
 
 1. On the test site, install and activate `newspack-plugin` and run `wp newspack setup`.
 2. Install and activate also `woocommerce-gateway-stripe` and `woocommerce-subscriptions` plugins.
+3. Configure the Stripe gateway to use the WC Connect Stripe gateway version (*not* the "Legacy checkout experience").
 
 ## Writing tests
 
