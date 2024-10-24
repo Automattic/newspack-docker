@@ -58,6 +58,9 @@ add_action(
 	'wp_mail',
 	function ( $attributes ) {
 		$recipient = $attributes['to'];
+		if ( empty( $recipient ) ) {
+			return;
+		}
 		// Only save emails sent to non-admin users.
 		$user = get_user_by( 'email', $recipient );
 		if ( $user && in_array( 'administrator', $user->roles ) ) {
