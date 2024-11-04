@@ -11,7 +11,7 @@ docker build \
     --platform linux/arm64 \
     --build-arg PHP_VERSION=8.0 \
     --build-arg COMPOSER_VERSION=2.2.6 \
-    --build-arg NODE_VERSION=16.14.2 \
+    --build-arg NODE_VERSION=20.16.0 \
     --build-arg APACHE_RUN_USER="$APACHE_USER" \
     --build-arg PHPUNIT_VERSION=9.5.10 \
     .

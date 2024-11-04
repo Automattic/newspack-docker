@@ -60,6 +60,21 @@ stop() {
     docker-compose down
 }
 
+switch_all_repos_to_branch() {
+    for dir in repos/*/; do
+        cd "$NABSPATH/$dir"
+        if [ -d ".git" ]; then
+            git checkout $1
+            echo "Updating repository to $1: $dir"
+            git pull
+            target=$(basename $dir)
+            echo $target
+            docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/build-repos.sh $target"
+        fi
+        cd ..
+    done
+}
+
 case $1 in
     start)
         start
@@ -145,6 +160,12 @@ case $1 in
         fi
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/build-repos.sh $target_folder"
         ;;
+    ci-build)
+        if [[ -n "$2" ]]; then
+            target_folder=$2
+        fi
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/build-repos.sh $target_folder ci"
+        ;;
     watch)
         require_target_folder
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/watch-repo.sh $target_folder"
@@ -190,13 +211,25 @@ case $1 in
         ;;
     pull)
         for dir in repos/*/; do
-        cd "$dir"
+        cd "$NABSPATH/$dir"
         if [ -d ".git" ]; then
             echo "Updating repository: $dir"
             git pull
         fi
         cd ..
         done
+        ;;
+    branch)
+        switch_all_repos_to_branch $2
+        ;;
+    trunk)
+        switch_all_repos_to_branch trunk
+        ;;
+    alpha)
+        switch_all_repos_to_branch alpha
+        ;;
+    release)
+        switch_all_repos_to_branch release
         ;;
     setup-newspack-network)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/setup-newspack-network.sh"

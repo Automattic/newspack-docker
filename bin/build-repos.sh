@@ -17,7 +17,9 @@ WHAT_TO_BUILD="$1"
 build_dir() {
     echo "Building $1"
     cd $1
-    npm ci --legacy-peer-deps
+    if [ "$2" == "ci" ]; then
+        npm ci --legacy-peer-deps
+    fi
     composer install
     npm run build
 }
@@ -26,12 +28,12 @@ case $WHAT_TO_BUILD in
     all)
         for dir in "${newspack_plugins[@]}"
         do :
-            build_dir "$CODE_PATH/$dir"
+            build_dir "$CODE_PATH/$dir" $2
         done
-        build_dir "$CODE_PATH/newspack-theme"
+        build_dir "$CODE_PATH/newspack-theme" $2
         ;;
     theme)
-        build_dir "$CODE_PATH/newspack-theme"
+        build_dir "$CODE_PATH/newspack-theme" $2
         ;;
     *)
         if [ ! -d "${CODE_PATH}/${WHAT_TO_BUILD}" ]; then
@@ -43,6 +45,6 @@ case $WHAT_TO_BUILD in
                 exit 1
             fi
         fi
-        build_dir "${CODE_PATH}/${WHAT_TO_BUILD}"
+        build_dir "${CODE_PATH}/${WHAT_TO_BUILD}" $2
         ;;
 esac

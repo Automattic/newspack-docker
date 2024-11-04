@@ -10,7 +10,7 @@ docker build --platform linux/arm64 \
     -t newspack-dev-74 \
     --build-arg PHP_VERSION=7.4 \
     --build-arg COMPOSER_VERSION=2.1.14 \
-    --build-arg NODE_VERSION=16.14.2 \
+    --build-arg NODE_VERSION=20.16.0 \
     --build-arg APACHE_RUN_USER="$APACHE_USER" \
     --build-arg PHPUNIT_VERSION=7.5.20 \
     .

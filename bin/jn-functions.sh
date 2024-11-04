@@ -7,10 +7,11 @@ fi
 
 USER="$1"
 DOMAIN="$2"
-dest_folder="/srv/users/$USER/apps/$USER/public"
+#dest_folder="/srv/users/$USER/apps/$USER/public"
+dest_folder="/srv/htdocs/wp-content/plugins"
 
 process_plugin() {
-    
+
     local plugin=$1
     # Let's check if is one of our plugins, if it is, let's use the release script
     for i in "${newspack_plugins[@]}"
@@ -28,7 +29,7 @@ process_plugin() {
 process_newspack_plugin() {
     local plugin=$1
     local password=$2
-    
+
     cd /newspack-repos/$1
     echo "Creating package for $plugin"
     npm run --silent release:archive > /dev/null
