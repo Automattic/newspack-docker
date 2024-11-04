@@ -133,8 +133,6 @@ case $1 in
     shell)
         docker exec -it $USER_COMMAND newspack_dev sh -c "wp shell --allow-root $path_param"
         ;;
-    container)
-        docker exec -it $USER_COMMAND newspack_dev sh -c "${@:2}"
         ;;
     install-manager)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install-manager.sh"
