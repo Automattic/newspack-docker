@@ -4,7 +4,7 @@ NABSPATH="$(dirname "${BASH_SOURCE[0]}")"
 source "$(dirname "${BASH_SOURCE[0]}")/bin/repos.sh"
 
 # Infer the current working project from the current folder;
-projects=("${newspack_plugins[@]}" "newspack-theme") # create a new list with the appended value
+projects=("${newspack_plugins[@]}" "newspack-theme" "newspack-block-theme") # create a new list with the appended value
 target_folder=""
 for plugin in "${projects[@]}"; do
     if [[ "$PWD" == *"$plugin"* ]]; then
@@ -132,6 +132,9 @@ case $1 in
         ;;
     shell)
         docker exec -it $USER_COMMAND newspack_dev sh -c "wp shell --allow-root $path_param"
+        ;;
+    container)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "${@:2}"
         ;;
     install-manager)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/install-manager.sh"
