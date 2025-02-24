@@ -24,6 +24,12 @@ if [[ "$PWD" == *"additional-sites-html"* ]]; then
     path_param="--path=$current_site_path"
 fi
 
+if [[ "$PWD" == *"manager-html"* ]]; then
+    current_site_path="/var/www/manager-html"
+    current_site_relative_path="manager-html"
+    path_param="--path=$current_site_path"
+fi
+
 cd "$(dirname "$0")"
 source .env
 
