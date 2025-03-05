@@ -57,3 +57,20 @@ add_filter('auto_update_plugin', '__return_false');
 
 // Stop auto-updates for themes.
 add_filter('auto_update_theme', '__return_false');
+
+/**
+ * Prevent any network-based updates of Newspack software.
+ * This will prevent WP from overwriting local newspack-newsletters, or any other package published
+ * on WPORG in the future.
+ */
+add_filter(
+	'upgrader_pre_download',
+	function ( $reply, $package, $upgrader ) {
+		if ( stripos( $package, 'newspack' ) != false ) {
+			return new WP_Error( 'plugin_update_blocked', 'Updates for this plugin are disabled.' );
+		}
+		return $reply;
+	},
+	1,
+	3
+);
