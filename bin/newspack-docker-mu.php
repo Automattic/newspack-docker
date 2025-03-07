@@ -66,9 +66,14 @@ add_filter('auto_update_theme', '__return_false');
 add_filter(
 	'upgrader_pre_download',
 	function ( $reply, $package, $upgrader ) {
-		if ( stripos( $package, 'newspack' ) != false ) {
-			return new WP_Error( 'plugin_update_blocked', 'Updates for this plugin are disabled.' );
-		}
+        $plugins_dir = WP_CONTENT_DIR . '/plugins';
+        $symlinks = array_filter( glob( $plugins_dir . '/*' ), 'is_link' );
+        foreach ( $symlinks as $symlink ) {
+            $symlink_name = basename( $symlink );
+            if ( stripos( $package, $symlink_name ) != false ) {
+                return new WP_Error( 'plugin_update_blocked', 'Updates for this plugin are disabled.' );
+            }
+        }
 		return $reply;
 	},
 	1,
