@@ -1,5 +1,6 @@
 .env
 repos
+contributed-plugins
 logs
 html
 data
