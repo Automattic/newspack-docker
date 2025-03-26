@@ -56,6 +56,8 @@ services:
       - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
       # Ensure network requests run via host machine proxy.
       - ALL_PROXY=socks5h://host.docker.internal:8080
+      # Escept for these:
+      - NO_PROXY=.local,manager.com,.ngrok.io
     extra_hosts:
       - "host.docker.internal:host-gateway"
   mailhog:
