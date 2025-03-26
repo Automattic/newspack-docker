@@ -1,5 +1,3 @@
-version: '3.3'
-
 volumes:
   ## Kludge for not having the ./docker directory bound recursively
   dockerdirectory:
@@ -56,6 +54,8 @@ services:
       - HOST_PORT=${PORT_WORDPRESS:-80}
      # - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
       - APACHE_RUN_USER=${USE_CUSTOM_APACHE_USER:-www-data}
+      # Ensure network requests run via host machine proxy.
+      - ALL_PROXY=socks5h://host.docker.internal:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
   mailhog:

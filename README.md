@@ -328,3 +328,9 @@ A certificate will be generated, so HTTPS is available immediately. However, the
 - `$ docker exec newspack_dev bash -c 'eval cat $(mkcert -CAROOT)/rootCA.pem' > rootCA.pem` to copy the CA certificate from the Docker machine
 - `$ sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" ./rootCA.pem` to trust this CA certificate (import to KeyChain). Alternatively, double-click on the .pem file.
 - remove the `rootCA.pem`, it's no longer needed
+
+## Proxy
+
+Docker is configured to use a socks5 host machine proxy at port 8080. If you
+don't wish to use the proxy, comment out the line with `ALL_PROXY` from the
+docker-compose file you're using.
