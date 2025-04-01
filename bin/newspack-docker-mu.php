@@ -68,8 +68,8 @@ add_filter(
         $symlinks = array_filter( glob( $plugins_dir . '/*' ), 'is_link' );
         foreach ( $symlinks as $symlink ) {
             $symlink_name = basename( $symlink );
-            if ( stripos( $package, $symlink_name ) != false ) {
-                return new WP_Error( 'plugin_update_blocked', 'Updates for this plugin are disabled.' );
+            if ( stripos( $package, '/' . $symlink_name . '.' ) != false ) {
+                return new WP_Error( 'plugin_update_blocked', 'Updates for this plugin are disabled by Newspack Docker.' );
             }
         }
 		return $reply;
