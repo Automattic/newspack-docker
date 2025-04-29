@@ -243,6 +243,9 @@ case $1 in
     setup-newspack-network)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/setup-newspack-network.sh"
         ;;
+    symlink-contributed-plugins)
+        docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/link-contributed-plugins.sh $2"
+    ;;
     *)
         echo Unknown command
         ;;
