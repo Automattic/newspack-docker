@@ -142,9 +142,6 @@ COPY ./config/ssmtp.conf /etc/ssmtp/ssmtp.conf
 COPY ./bin/init_apache_user.sh /usr/local/bin/init_apache_user
 RUN chmod +x /usr/local/bin/init_apache_user && /usr/local/bin/init_apache_user
 
-# Xdebug
-RUN pecl install xdebug
-
 # Copy and make cmd script executable.
 COPY ./bin/run.sh /usr/local/bin/run
 RUN chmod +x /usr/local/bin/run
