@@ -19,7 +19,20 @@ RUN \
 	export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \
 	&& apt-get install -y language-pack-en-base software-properties-common \
-	&& add-apt-repository ppa:ondrej/php \
+	&& retry_ppa() { \
+		local attempt=0 delay=5 max_retries=5; \
+		until add-apt-repository ppa:ondrej/php; do \
+			attempt=$((attempt + 1)); \
+			if [ $attempt -ge $max_retries ]; then \
+				echo "Failed to add PPA after $max_retries attempts" >&2; \
+				return 1; \
+			fi; \
+			echo "Attempt $attempt failed. Retrying in $delay seconds..." >&2; \
+			sleep $delay; \
+			delay=$((delay * 2)); \
+		done; \
+	} \
+	&& retry_ppa \
 	&& apt-get update \
 	&& apt-get install -y \
 		apache2 \
