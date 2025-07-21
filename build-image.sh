@@ -8,7 +8,7 @@ fi
 
 docker build \
     --platform linux/arm64 \
-    -t newspack-dev-83 \
+    -t newspack-dev \
     --build-arg PHP_VERSION=8.3 \
     --build-arg COMPOSER_VERSION=2.2.6 \
     --build-arg NODE_VERSION=20.16.0 \
