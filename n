@@ -80,14 +80,14 @@ switch_all_repos_to_branch() {
 
 case $1 in
     start)
-        start
+        start "$@"
         ;;
     stop)
         stop
         ;;
     restart)
         stop
-        start
+        start "$@"
         ;;
     sh)
         docker exec -it $USER_COMMAND newspack_dev /bin/bash
