@@ -20,6 +20,12 @@ case $WHAT_TO_WATCH in
         echo "Running: phpunit ${@:2}"
         phpunit "${@:2}"
         ;;
+    block-theme)
+        cd "$CODE_PATH/newspack-block-theme"
+        bin/install-wp-tests.sh wp_tests root $MYSQL_ROOT_PASSWORD $MYSQL_HOST latest
+        echo "Running: phpunit ${@:2}"
+        phpunit "${@:2}"
+        ;;
     *)
         if [ ! -d "${CODE_PATH}/${WHAT_TO_WATCH}" ]; then
             echo "$WHAT_TO_WATCH directory does not exist"
