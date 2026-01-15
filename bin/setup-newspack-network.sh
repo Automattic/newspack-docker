@@ -6,6 +6,14 @@ SERVICE_ACCOUNTS_FILE="/var/scripts/newspack-network/service-accounts.secret"
 NODES_KEYS_FILE="/var/scripts/newspack-network/nodes-keys.json"
 NODES=""
 
+# Ensure the newspack-network directory exists
+mkdir -p /var/scripts/newspack-network
+
+# Create empty JSON file if it doesn't exist
+if [ ! -f "$NODES_KEYS_FILE" ]; then
+    echo '{}' > "$NODES_KEYS_FILE"
+fi
+
 if ! wp --allow-root user application-password exists 1 $APP_NAME --path=/var/www/html; then
     wp --allow-root plugin activate distributor --path=/var/www/html
     wp --allow-root plugin activate newspack-network --path=/var/www/html
