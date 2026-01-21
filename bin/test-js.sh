@@ -19,6 +19,11 @@ case $WHAT_TO_WATCH in
         npm ci
         npm run test
         ;;
+    block-theme)
+        cd "$CODE_PATH/newspack-block-theme"
+        npm ci
+        npm run test
+        ;;
     *)
         if [ ! -d "${CODE_PATH}/${WHAT_TO_WATCH}" ]; then
             echo "$WHAT_TO_WATCH directory does not exist"
