@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NABSPATH="$(dirname "${BASH_SOURCE[0]}")"
+NABSPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$(dirname "${BASH_SOURCE[0]}")/bin/repos.sh"
 
 # Infer the current working project from the current folder;
@@ -239,6 +239,12 @@ case $1 in
         ;;
     setup-newspack-network)
         docker exec -it $USER_COMMAND newspack_dev sh -c "/var/scripts/setup-newspack-network.sh"
+        ;;
+    worktree)
+        "$NABSPATH/bin/worktree.sh" "${@:2}"
+        ;;
+    env)
+        "$NABSPATH/bin/env.sh" "${@:2}"
         ;;
     *)
         echo Unknown command
