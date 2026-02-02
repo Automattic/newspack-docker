@@ -34,7 +34,7 @@ services:
     platform: linux/arm64
     depends_on:
       - db
-    image: newspack-dev-81:latest
+    image: newspack-dev-82:latest
     volumes:
       - ./logs/newspack-dev/apache2/:/var/log/apache2
       - ./logs/newspack-dev/php:/var/log/php

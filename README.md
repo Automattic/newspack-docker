@@ -32,7 +32,7 @@ You only need to run this the first time you set up your env.
 ./build-image.sh
 ```
 
-The default builds using PHP 8.3. You can also call `./build-image-81.sh` to build an image with PHP 8.1. It's a good idea to have both.
+The default builds using PHP 8.3. You can also call `./build-image-82.sh` to build an image with PHP 8.2. It's a good idea to have both.
 
 ### Clone all repos
 
@@ -51,11 +51,11 @@ Now we are going to use the `n` script. (Tip: Create an alias in your `.bashrc` 
 n start
 ```
 
-(`n start 8.1` will start the image with php 8.1 if you built it)
+(`n start 8.2` will start the image with php 8.2 if you built it)
 
 When you are done, you can stop the containers with `n stop`.
 
-You can also stop and start in one command with `n restart` (or `n restart 8.1`).
+You can also stop and start in one command with `n restart` (or `n restart 8.2`).
 
 At this point you should be able to see your site in `https://localhost`.
 
