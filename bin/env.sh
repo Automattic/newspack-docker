@@ -106,7 +106,7 @@ YAML
             # Extract worktree repo names from the compose override volumes
             grep 'worktrees/' "$compose_file" | sed 's|.*/newspack-repos/||' | while read -r repo; do
                 echo "Building $repo in env $env_name..."
-                docker exec "$container_name" sh -c "/var/scripts/build-repos.sh $repo"
+                docker exec "$container_name" sh -c "/var/scripts/build-repos.sh $repo ci"
             done
         fi
         ;;
