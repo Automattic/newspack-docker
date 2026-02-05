@@ -715,7 +715,10 @@ if ( $options['format'] === 'json' ) {
 
 // Write output.
 if ( $options['output'] ) {
-	file_put_contents( $options['output'], $output );
+	if ( false === file_put_contents( $options['output'], $output ) ) {
+		fwrite( STDERR, "Error: Failed to write to {$options['output']}\n" );
+		exit( 1 );
+	}
 	echo "Output written to: {$options['output']}\n";
 
 	// Show summary.
