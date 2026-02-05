@@ -3,6 +3,13 @@
 NABSPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$(dirname "${BASH_SOURCE[0]}")/bin/repos.sh"
 
+# Use -it flags only when TTY is available
+if [ -t 0 ] && [ -t 1 ]; then
+    DOCKER_IT="-it"
+else
+    DOCKER_IT=""
+fi
+
 # Determine target container based on current directory
 # If inside a worktree, find the environment that mounts it; otherwise use newspack_dev
 get_target_container() {
@@ -98,7 +105,7 @@ switch_all_repos_to_branch() {
             git pull
             target=$(basename $dir)
             echo $target
-            docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/build-repos.sh $target"
+            docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/build-repos.sh $target"
         fi
         cd ..
     done
@@ -116,10 +123,10 @@ case $1 in
         start "${@:2}"
         ;;
     sh)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER /bin/bash
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER /bin/bash
         ;;
     rsh)
-        docker exec -it $TARGET_CONTAINER /bin/bash
+        docker exec $DOCKER_IT $TARGET_CONTAINER /bin/bash
         ;;
     cd-install)
         echo "This will install the ncd command in your system. Please inform the file you want to add this to (e.g. .bashrc)"
@@ -141,36 +148,36 @@ case $1 in
         fi
         ;;
     install)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/install.sh $current_site_path"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/install.sh $current_site_path"
         ;;
     uninstall)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/uninstall.sh $current_site_path"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/uninstall.sh $current_site_path"
         ;;
     reset-site)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/reset-site.sh $current_site_path"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/reset-site.sh $current_site_path"
         ;;
     tail)
         tail -f $current_site_relative_path/wp-content/debug.log
         ;;
     wp)
         cmd="wp --allow-root $path_param ${@:2}"
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER $cmd
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER $cmd
         ;;
     db)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "wp db cli --allow-root $path_param"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "wp db cli --allow-root $path_param"
         ;;
     shell)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "wp shell --allow-root $path_param"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "wp shell --allow-root $path_param"
         ;;
     install-manager)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/install-manager.sh"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/install-manager.sh"
         ;;
     setup-manager)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/init-wp-manager.sh"
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/setup-manager.sh"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/init-wp-manager.sh"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/setup-manager.sh"
         ;;
     sites-add)
-        docker exec -it $TARGET_CONTAINER sh -c "/var/scripts/sites-add.sh $2"
+        docker exec $DOCKER_IT $TARGET_CONTAINER sh -c "/var/scripts/sites-add.sh $2"
         if ! grep -q "\s$2.local" /etc/hosts; then
             read -p "Do you want to add this domain to your local hosts file? (Y/n): " choice
             choice=$(echo "$choice" | tr '[:upper:]' '[:lower:]')
@@ -181,65 +188,65 @@ case $1 in
 
         ;;
     sites-list)
-        docker exec -it $TARGET_CONTAINER sh -c "/var/scripts/sites-list.sh ${@:2}"
+        docker exec $DOCKER_IT $TARGET_CONTAINER sh -c "/var/scripts/sites-list.sh ${@:2}"
         ;;
     sites-drop)
-        docker exec -it $TARGET_CONTAINER sh -c "/var/scripts/sites-drop.sh ${@:2}"
+        docker exec $DOCKER_IT $TARGET_CONTAINER sh -c "/var/scripts/sites-drop.sh ${@:2}"
         ;;
     build)
         if [[ -n "$2" ]]; then
             target_folder=$2
         fi
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/build-repos.sh $target_folder"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/build-repos.sh $target_folder"
         ;;
     ci-build)
         if [[ -n "$2" ]]; then
             target_folder=$2
         fi
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/build-repos.sh $target_folder ci"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/build-repos.sh $target_folder ci"
         ;;
     watch)
         require_target_folder
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/watch-repo.sh $target_folder"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/watch-repo.sh $target_folder"
         ;;
     test-php)
         require_target_folder
         command="/var/scripts/test-php.sh $target_folder ${@:2}"
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "$command"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "$command"
         ;;
     test-js)
         require_target_folder
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/test-js.sh $target_folder"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/test-js.sh $target_folder"
         ;;
     composer)
         require_target_folder
         command="/var/scripts/composer.sh $target_folder ${@:2}"
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "$command"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "$command"
         ;;
     npm)
         require_target_folder
         command="/var/scripts/npm.sh $target_folder ${@:2}"
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "$command"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "$command"
         ;;
     secrets)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "wp eval-file /var/scripts/generate-secrets.php --allow-root"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "wp eval-file /var/scripts/generate-secrets.php --allow-root"
         ;;
     secrets-import)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/import-secrets.sh"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/import-secrets.sh"
         ;;
     snapshot)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/snapshot-create.sh $2"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/snapshot-create.sh $2"
         ;;
     snapshot-load)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/snapshot-load.sh $2"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/snapshot-load.sh $2"
         ;;
     jncp)
         cmd="/var/scripts/jn-cp.sh ${@:2}"
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER $cmd
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER $cmd
         ;;
     jninit)
         cmd="/var/scripts/jn-init.sh ${@:2}"
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER $cmd
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER $cmd
         ;;
     pull)
         for dir in repos/*/; do
@@ -264,7 +271,7 @@ case $1 in
         switch_all_repos_to_branch release
         ;;
     setup-newspack-network)
-        docker exec -it $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/setup-newspack-network.sh"
+        docker exec $DOCKER_IT $USER_COMMAND $TARGET_CONTAINER sh -c "/var/scripts/setup-newspack-network.sh"
         ;;
     worktree)
         "$NABSPATH/bin/worktree.sh" "${@:2}"
