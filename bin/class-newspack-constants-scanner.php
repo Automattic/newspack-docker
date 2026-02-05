@@ -265,7 +265,7 @@ class Newspack_Constants_Scanner {
 			$docblock = $this->extract_docblock( $lines, $line_number - 1 );
 
 			// Parse docblock if found.
-			$parsed_doc = $docblock ? $this->parse_docblock( $docblock ) : null;
+			$parsed_doc = $docblock ? $this->parse_docblock( $docblock, $constant_name ) : null;
 
 			// Get the line context.
 			$context = trim( $lines[ $line_number - 1 ] ?? '' );
@@ -369,10 +369,11 @@ class Newspack_Constants_Scanner {
 	/**
 	 * Parse a docblock into structured data.
 	 *
-	 * @param string $docblock Raw docblock string.
-	 * @return array Parsed docblock data.
+	 * @param string $docblock      Raw docblock string.
+	 * @param string $constant_name Expected constant name.
+	 * @return array|null Parsed docblock data, or null if @constant tag is missing or mismatched.
 	 */
-	private function parse_docblock( $docblock ) {
+	private function parse_docblock( $docblock, $constant_name ) {
 		$result = [
 			'type'        => null,
 			'default'     => null,
@@ -381,9 +382,9 @@ class Newspack_Constants_Scanner {
 			'example'     => null,
 		];
 
-		// Extract @constant tag (verify it matches).
-		if ( preg_match( '/@constant\s+(\S+)/', $docblock, $matches ) ) {
-			// We have a proper constant docblock.
+		// Require @constant tag to exist and match the constant being processed.
+		if ( ! preg_match( '/@constant\s+(\S+)/', $docblock, $matches ) || $matches[1] !== $constant_name ) {
+			return null;
 		}
 
 		// Extract @type.
