@@ -165,6 +165,8 @@ class Newspack_Constants_Scanner {
 	 * @return array Found constants.
 	 */
 	public function scan() {
+		$this->constants = [];
+
 		foreach ( $this->repos as $repo ) {
 			$repo_path = $this->base_path . '/' . $repo;
 			if ( is_dir( $repo_path ) ) {
@@ -701,8 +703,8 @@ if ( ! $base_path ) {
 }
 
 // Create scanner and run.
-$scanner = new Newspack_Constants_Scanner( $base_path, $options['repos'] );
-$scanner->scan();
+$scanner   = new Newspack_Constants_Scanner( $base_path, $options['repos'] );
+$constants = $scanner->scan();
 
 // Generate output.
 if ( $options['format'] === 'json' ) {
@@ -717,8 +719,7 @@ if ( $options['output'] ) {
 	echo "Output written to: {$options['output']}\n";
 
 	// Show summary.
-	$constants = $scanner->scan();
-	$total     = count( $constants );
+	$total = count( $constants );
 	$documented = count(
 		array_filter(
 			$constants,
