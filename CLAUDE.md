@@ -49,7 +49,12 @@ The Newspack product consists of these interconnected plugins and themes:
 - `republication-tracker-tool` - Tracks content republication across sites
 
 **Themes:**
-- `newspack-theme` - Primary Newspack theme with multiple style variations
+- `newspack-theme` - Primary Newspack theme and base for additional style variations
+- `newspack-joseph` - Newspack theme variation built on top of `newspack-theme`
+- `newspack-katharine` - Newspack theme variation built on top of `newspack-theme`
+- `newspack-nelson` - Newspack theme variation built on top of `newspack-theme`
+- `newspack-sacha` - Newspack theme variation built on top of `newspack-theme`
+- `newspack-scott` - Newspack theme variation built on top of `newspack-theme`
 
 ### Plugin Relationships
 
