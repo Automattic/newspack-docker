@@ -206,7 +206,7 @@ Use `ncd <name>` (install with `n cd-install`) for quick navigation between proj
 - Memcached enabled via `html/wp-content/object-cache.php`
 - Batcache for page caching via `advanced-cache.php`
 
-### X-Debug
+### X-debug
 Configured on port 9003 with IDE key `DOCKERDEBUG`. Path mapping: `/newspack-repos/<project>` maps to local `repos/<project>`.
 
 ## Agent Workflow for Cross-Repository Changes
