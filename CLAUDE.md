@@ -140,6 +140,12 @@ n test-php -- --filter=test_name  # Run specific test
 n test-js                     # Run JS tests
 ```
 
+**Note:** `n` commands require a TTY. In non-interactive contexts (CI, agents), run tests directly via Docker:
+```bash
+docker exec newspack_dev bash -c "cd /newspack-repos/newspack-plugin && ./vendor/bin/phpunit"
+docker exec newspack_dev bash -c "cd /newspack-repos/newspack-plugin && ./vendor/bin/phpunit --filter=test_name"
+```
+
 ### Development
 ```bash
 n watch                       # Watch mode for current project
