@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NABSPATH="$(dirname "${BASH_SOURCE[0]}")"
+NABSPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 source "$(dirname "${BASH_SOURCE[0]}")/bin/repos.sh"
 
 # Infer the current working project from the current folder;
@@ -106,11 +106,14 @@ case $1 in
             if [ "$current_root" = "$NABSPATH" ]; then
                 echo "ncd is already installed on $target"
             else
-                sed -i '' "s|NEWSPACK_DOCKER_ROOT=.*|NEWSPACK_DOCKER_ROOT=$NABSPATH|" "$target"
-                sed -i '' "s|source .*/bin/ncd\.sh|source $NABSPATH/bin/ncd.sh|" "$target"
-                echo "ncd path updated in $target"
-                echo
-                echo "Restart your terminal or run 'source $target' to apply the changes"
+                if sed -i '' "s|NEWSPACK_DOCKER_ROOT=.*|NEWSPACK_DOCKER_ROOT=$NABSPATH|" "$target" && \
+                   sed -i '' "s|source .*/bin/ncd\.sh|source $NABSPATH/bin/ncd.sh|" "$target"; then
+                    echo "ncd path updated in $target"
+                    echo
+                    echo "Restart your terminal or run 'source $target' to apply the changes"
+                else
+                    echo "Error: failed to update $target. If it is a symlink, use the real path instead."
+                fi
             fi
         else
             echo "NEWSPACK_DOCKER_ROOT=$NABSPATH" >> "$target"
