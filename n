@@ -106,8 +106,12 @@ case $1 in
             if [ "$current_root" = "$NABSPATH" ]; then
                 echo "ncd is already installed on $target"
             else
-                if sed -i '' "s|NEWSPACK_DOCKER_ROOT=.*|NEWSPACK_DOCKER_ROOT=\"$NABSPATH\"|" "$target" && \
-                   sed -i '' "s|source .*/bin/ncd\.sh|source \"$NABSPATH/bin/ncd.sh\"|" "$target"; then
+                root_sub="s|NEWSPACK_DOCKER_ROOT=.*|NEWSPACK_DOCKER_ROOT=\"$NABSPATH\"|"
+                source_sub="s|source .*/bin/ncd\.sh|source \"$NABSPATH/bin/ncd.sh\"|"
+                # Try BSD sed first, fall back to GNU sed
+                { sed -i '' "$root_sub" "$target" 2>/dev/null || sed -i "$root_sub" "$target"; } && \
+                { sed -i '' "$source_sub" "$target" 2>/dev/null || sed -i "$source_sub" "$target"; }
+                if [ $? -eq 0 ]; then
                     echo "ncd path updated in $target"
                     echo
                     echo "Restart your terminal or run 'source $target' to apply the changes"
