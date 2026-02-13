@@ -99,7 +99,7 @@ Understanding how plugins interact is crucial for cross-repo changes:
 
 ## Key Commands
 
-All commands use the `n` script from the repository root.
+All commands use the `n` script from the repository root. The `n` script is context-aware: it detects your current working directory and targets the appropriate project/container automatically. It works in both interactive terminals and non-interactive contexts (CI, AI agents).
 
 ### Container Management
 ```bash
@@ -131,15 +131,11 @@ n ci-build all                # Build all projects
 
 ### Testing
 ```bash
-n test-php                    # Run PHPUnit tests (from within repo folder)
-n test-php -- --filter=test_name  # Run specific test
-n test-js                     # Run JS tests
-```
-
-**Note:** `n` commands require a TTY. In non-interactive contexts (CI, agents), run tests directly via Docker:
-```bash
-docker exec newspack_dev bash -c "cd /newspack-repos/newspack-plugin && ./vendor/bin/phpunit"
-docker exec newspack_dev bash -c "cd /newspack-repos/newspack-plugin && ./vendor/bin/phpunit --filter=test_name"
+n test-php                          # Run all PHPUnit tests (from within repo folder)
+n test-php --group byline-block     # Run tests by group
+n test-php --filter test_name       # Run a specific test method
+n test-php --list-groups            # List available test groups
+n test-js                           # Run JS tests
 ```
 
 ### Development
@@ -151,11 +147,7 @@ n npm <cmd>                   # Run npm in current project
 
 ### WordPress CLI
 ```bash
-n wp <command>                # Run WP-CLI command
-n shell                       # WP-CLI interactive shell
-n db                          # MySQL interactive shell
-n sh                          # Container bash (as apache user)
-n rsh                         # Container bash (as root)
+n wp <command>                # Run WP-CLI command (--allow-root is added automatically)
 ```
 
 ### Multi-Site
