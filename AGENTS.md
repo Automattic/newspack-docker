@@ -150,6 +150,13 @@ n npm <cmd>                   # Run npm in current project
 n wp <command>                # Run WP-CLI command (--allow-root is added automatically)
 ```
 
+**Quoting limitation**: `n wp` does not support arguments with spaces (SQL queries, `wp eval` code, etc.) because they get word-split. For these, use `docker exec` directly:
+```bash
+docker exec newspack_dev sh -c "wp db query 'SELECT * FROM wp_options WHERE option_name=\"siteurl\";' --allow-root"
+docker exec newspack_dev sh -c "wp eval 'echo get_option(\"blogname\");' --allow-root"
+```
+The main container is `newspack_dev`. For isolated environments, the container name is `newspack_env_<name>` where `<name>` matches what was passed to `n env create <name>`, with dashes replaced by underscores (e.g., `n env create my-feature` creates container `newspack_env_my_feature`).
+
 ### Multi-Site
 ```bash
 n sites-add <name>            # Create additional site at name.local
