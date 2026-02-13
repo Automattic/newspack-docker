@@ -57,10 +57,10 @@ start() {
         if [ "$1" == "8.2" ]; then
             file="docker-compose-82.yml"
         fi
-        docker-compose -f $file up -d
+        docker compose -f $file up -d
 }
 stop() {
-    docker-compose down
+    docker compose down
 }
 
 switch_all_repos_to_branch() {
