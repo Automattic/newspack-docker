@@ -202,10 +202,79 @@ Use `ncd <name>` (install with `n cd-install`) for quick navigation between proj
 - Memcached enabled via `html/wp-content/object-cache.php`
 - Batcache for page caching via `advanced-cache.php`
 
-### X-debug
+### Xdebug
 Configured on port 9003 with IDE key `DOCKERDEBUG`. Path mapping: `/newspack-repos/<project>` maps to local `repos/<project>`.
 
-## Agent Workflow for Cross-Repository Changes
+## Isolated Environments for Parallel Development
+
+When working on a feature branch that needs testing in WordPress without disrupting the main development environment (e.g. when multiple agents work in parallel), use the worktree + env system.
+
+```bash
+# 1. Create a worktree for your branch
+n worktree add newspack-plugin fix/my-feature
+
+# 2. Create an isolated environment on a separate port
+n env create my-feature --worktree newspack-plugin:fix/my-feature
+
+# 3. Start it and build deps (worktrees are fresh checkouts with no vendor/ or dist/)
+n env up my-feature --build
+
+# WordPress is now at localhost:8081 using the worktree branch.
+# The main site at localhost:80 is unaffected.
+```
+
+Key details:
+- The `--build` flag on `n env up` runs `composer install` and `npm ci && npm run build` inside the container for all worktree repos. Without it, the plugin will fail to load (missing `vendor/autoload.php`).
+- Multiple `--worktree` flags can be passed to `n env create` if a feature spans multiple repos.
+- The environment shares the same database as the main site. Only the plugin/theme code differs.
+- **Auto-detection**: When you `cd` into a worktree directory and run `n build`, `n wp`, etc., the script automatically detects and targets the correct container.
+- **Worktree paths preserve branch slashes**: Branch `feat/my-feature` creates `worktrees/newspack-plugin/feat/my-feature` (not `feat-my-feature`).
+- **Run lint/build in the container**, not locally in the worktree, since the worktree has no `node_modules`.
+- **Never destroy environments or remove worktrees without explicit user permission.** The user may have other work depending on them. When done with your task, inform the user the environment is still running and provide the cleanup commands:
+  ```bash
+  n env destroy my-feature
+  n worktree remove newspack-plugin fix/my-feature
+  ```
+
+### Testing PRs Across Multiple Repos
+
+When a feature spans multiple repos (e.g. a plugin PR + a theme PR), create worktrees for each and pass multiple `--worktree` flags:
+
+```bash
+# Fetch and create worktrees for each repo
+git -C repos/newspack-plugin fetch origin feat/plugin-branch
+n worktree add newspack-plugin feat/plugin-branch
+
+git -C repos/newspack-block-theme fetch origin feat/theme-branch
+n worktree add newspack-block-theme feat/theme-branch
+
+# Create environment with both
+n env create my-feature \
+  --worktree newspack-plugin:feat/plugin-branch \
+  --worktree newspack-block-theme:feat/theme-branch
+
+n env up my-feature --build
+```
+
+To add a repo to an existing environment, you must destroy and recreate it with all worktrees, then `n env up --build`.
+
+After startup, verify changes are present in the container:
+```bash
+# Plugin repos mount at /newspack-repos/<repo>
+docker exec newspack_env_my_feature sh -c "grep 'unique-string' /newspack-repos/newspack-plugin/path/to/file.php"
+
+# Themes mount at /var/www/html/wp-content/themes/<theme>
+docker exec newspack_env_my_feature sh -c "grep 'unique-string' /var/www/html/wp-content/themes/newspack-block-theme/path/to/file.php"
+```
+
+Cleanup requires removing all worktrees:
+```bash
+n env destroy my-feature
+n worktree remove newspack-plugin feat/plugin-branch
+n worktree remove newspack-block-theme feat/theme-branch
+```
+
+## Cross-Repository Workflow
 
 When making changes that span multiple plugins:
 
