@@ -13,7 +13,7 @@ fi
 # Determine target container based on current directory
 # If inside a worktree, find the environment that mounts it; otherwise use newspack_dev
 get_target_container() {
-    if [[ "$PWD" == *"/worktrees/"* ]]; then
+    if [[ "$PWD" == "$NABSPATH/worktrees/"* ]]; then
         # Extract the worktree path segment (e.g., /worktrees/repo-name/branch-name)
         worktree_rel=$(echo "$PWD" | sed "s|.*\(/worktrees/[^/]*/[^/]*\).*|\1|")
         for f in "$NABSPATH"/docker-compose.env-*.yml; do
