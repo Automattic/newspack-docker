@@ -370,10 +370,30 @@ newspack-plugin provides configuration managers for other plugins:
 - `Newspack_Ads_Configuration_Manager`
 - `Newspack_Theme_Configuration_Manager`
 
+## Git & Commit Rules
+
+- **Merge strategy**: Always use **squash merge** (`gh pr merge --squash`) when merging PRs. The only exceptions are branch promotions (`trunk` to `alpha`, `alpha` to `release`), which use merge commits to preserve history.
+- **Commit messages**: Single line, max 72 characters. Conventional commit format: `<type>(<scope>): <subject>`. No body, no `Co-Authored-By`, no extra attributes.
+- **Never push automatically**. Always ask for confirmation before pushing to remote.
+
+## Pull Request Descriptions
+
+When asked to create a PR description, follow the repo template (`.github/PULL_REQUEST_TEMPLATE.md`):
+
+1. **Changes proposed**: Write a concise description focused on **functionality and user impact**, not implementation details.
+2. **How to test**: Provide thorough test steps covering all business cases. Derive these by diffing the branch against `trunk` (committed changes only, ignoring the working tree). Consider edge cases, error states, and different user roles/configurations.
+3. **Checklist items**: Fill in as applicable.
+4. **"Closes" line**: Reference the Linear issue ID directly (e.g., `Closes NPPD-1234.`). Do not use a full URL.
+5. **No template comments**: Strip all HTML comments (`<!-- ... -->`) from the output.
+
+## External Tools
+
+- **Linear**: Use MCP tools for Linear operations when available. Write operations (creating or updating issues, comments, etc.) require explicit user confirmation.
+- **GitHub**: Always use `gh` CLI for GitHub operations (PRs, issues, checks, releases, etc.).
+
 ## GitHub Information
 
 All repositories are under the Automattic GitHub organization:
 - URL pattern: `https://github.com/Automattic/<repo-name>`
 - Default branch: `trunk` (some older repos may use `master`)
 - PR target: Usually `trunk` branch
-
