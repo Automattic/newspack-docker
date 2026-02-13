@@ -111,7 +111,7 @@ case $1 in
                 echo "ncd is already installed on $target"
             else
                 root_sub="s|NEWSPACK_DOCKER_ROOT=.*|NEWSPACK_DOCKER_ROOT=\"$NABSPATH\"|"
-                source_sub="s|source .*/bin/ncd\.sh|source \"$NABSPATH/bin/ncd.sh\"|"
+                source_sub="s|source .*/bin/ncd\.sh\"*|source \"$NABSPATH/bin/ncd.sh\"|"
                 # Try BSD sed first, fall back to GNU sed
                 { sed -i '' "$root_sub" "$target" 2>/dev/null || sed -i "$root_sub" "$target"; } && \
                 { sed -i '' "$source_sub" "$target" 2>/dev/null || sed -i "$source_sub" "$target"; }
