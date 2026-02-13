@@ -99,6 +99,10 @@ case $1 in
         echo "This will install the ncd command in your system. Please inform the file you want to add this to (e.g. .bashrc)"
         read -e -p "> $HOME/" file
         target="$HOME/$file"
+        # Resolve symlinks so sed -i works on the real file
+        if [ -L "$target" ]; then
+            target="$(readlink -f "$target")"
+        fi
         snippet="source \"$NABSPATH/bin/ncd.sh\""
         if grep -q "bin/ncd.sh" "$target" 2>/dev/null; then
             # Update existing installation if the path has changed (e.g. repo moved or renamed)
@@ -116,7 +120,7 @@ case $1 in
                     echo
                     echo "Restart your terminal or run 'source $target' to apply the changes"
                 else
-                    echo "Error: failed to update $target. If it is a symlink, use the real path instead."
+                    echo "Error: failed to update $target."
                 fi
             fi
         else
