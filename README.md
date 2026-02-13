@@ -1,4 +1,4 @@
-# newspack-docker
+# newspack-workspace
 Newspack helper Repository for running local environments using Docker.
 
 The main idea is to have all the dependecies we need to run the projects, and its tests, inside the container so we don't depend on anything in our local machine.
@@ -7,7 +7,7 @@ The main idea is to have all the dependecies we need to run the projects, and it
 ### Clone this repository
 
 ```BASH
-git clone https://github.com/Automattic/newspack-docker.git
+git clone https://github.com/Automattic/newspack-workspace.git
 ```
 
 ### Set up your local vars
