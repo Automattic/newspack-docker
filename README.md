@@ -1,4 +1,4 @@
-# newspack-docker
+# newspack-workspace
 Newspack helper Repository for running local environments using Docker.
 
 The main idea is to have all the dependecies we need to run the projects, and its tests, inside the container so we don't depend on anything in our local machine.
@@ -7,7 +7,7 @@ The main idea is to have all the dependecies we need to run the projects, and it
 ### Clone this repository
 
 ```BASH
-git clone https://github.com/Automattic/newspack-docker.git
+git clone https://github.com/Automattic/newspack-workspace.git
 ```
 
 ### Set up your local vars
@@ -154,7 +154,7 @@ To make navigating easier, use the `ncd` terminal command.
 * Look for an additional site with that name `... /additional-sites-html/plugin`
 * Look for a plugin installed in the main site `... /html/wp-content/plugins/plugin`
 
-So when you arrive at your home folder and want to go to the `newspack-newsletters` project, instead of typing something like `cd my-project/newspack-docker/repos/newspack-newsletters`, all you need to do is `ncd newsletters`!
+So when you arrive at your home folder and want to go to the `newspack-newsletters` project, instead of typing something like `cd my-project/newspack-workspace/repos/newspack-newsletters`, all you need to do is `ncd newsletters`!
 
 To start using it, you need to add it to your terminal by running `n cd-install` and then inform the loader file you want to add the script to, for example `.bashrc`, `.zshrc`, etc.
 
