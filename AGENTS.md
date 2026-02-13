@@ -1,6 +1,6 @@
 # AI Agent Instructions
 
-This file provides guidance to AI coding agents working with code in this repository. It is the single source of truth — tool-specific files (`CLAUDE.md`, `.cursorrules`, etc.) reference this file.
+This file provides guidance to AI coding agents working with code in this repository. It is the single source of truth for shared conventions across all Newspack repos. Tool-specific files (`CLAUDE.md`, `.cursorrules`, etc.) reference this file.
 
 ## Overview
 
@@ -14,7 +14,7 @@ newspack-docker is a Docker-based local development environment for Newspack Wor
 
 All Newspack repositories are cloned to `./repos/<project-name>/`. Each is an independent Git repository hosted at `github.com/Automattic/<project-name>`.
 
-### Newspack Ecosystem
+### Plugins and Themes
 
 The Newspack product consists of these interconnected plugins and themes:
 
@@ -48,12 +48,9 @@ The Newspack product consists of these interconnected plugins and themes:
 - `republication-tracker-tool` - Tracks content republication across sites
 
 **Themes:**
-- `newspack-theme` - Primary Newspack theme and base for additional style variations
-- `newspack-joseph` - Newspack theme variation built on top of `newspack-theme`
-- `newspack-katharine` - Newspack theme variation built on top of `newspack-theme`
-- `newspack-nelson` - Newspack theme variation built on top of `newspack-theme`
-- `newspack-sacha` - Newspack theme variation built on top of `newspack-theme`
-- `newspack-scott` - Newspack theme variation built on top of `newspack-theme`
+- `newspack-theme` - Classic theme and base for style variations
+- `newspack-joseph`, `newspack-katharine`, `newspack-nelson`, `newspack-sacha`, `newspack-scott` - Theme variations built on `newspack-theme`
+- `newspack-block-theme` - FSE block theme for Newspack sites
 
 ### Plugin Relationships
 
