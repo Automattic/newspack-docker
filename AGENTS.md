@@ -1,6 +1,6 @@
 # AI Agent Instructions
 
-This file provides guidance to AI coding agents working with code in this repository. It is the single source of truth for shared conventions across all Newspack repos. Tool-specific files (`CLAUDE.md`, `.cursorrules`, etc.) reference this file.
+This file provides guidance to AI coding agents working with code in this repository. It is the single source of truth for shared conventions across all Newspack repos. Tool-specific files (`CLAUDE.md`, `.github/copilot-instructions.md`, etc.) reference this file.
 
 ## Overview
 
