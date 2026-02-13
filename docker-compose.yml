@@ -1,3 +1,5 @@
+name: newspack-docker
+
 volumes:
   ## Kludge for not having the ./docker directory bound recursively
   dockerdirectory:

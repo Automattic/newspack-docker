@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NABSPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NABSPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 source "$(dirname "${BASH_SOURCE[0]}")/bin/repos.sh"
 
 # Use -it flags only when TTY is available
@@ -90,10 +90,10 @@ start() {
         if [ "$1" == "8.2" ]; then
             file="docker-compose-82.yml"
         fi
-        docker-compose -f $file up -d
+        docker compose -f $file up -d
 }
 stop() {
-    docker-compose down
+    docker compose down
 }
 
 switch_all_repos_to_branch() {
@@ -132,13 +132,33 @@ case $1 in
         echo "This will install the ncd command in your system. Please inform the file you want to add this to (e.g. .bashrc)"
         read -e -p "> $HOME/" file
         target="$HOME/$file"
-        snippet="source $NABSPATH/bin/ncd.sh"
-        if grep -Fxq "$snippet" $target
-        then
-            echo "ncd is already installed on $target"
+        # Resolve symlinks so sed -i works on the real file
+        if [ -L "$target" ]; then
+            target="$(readlink -f "$target")"
+        fi
+        snippet="source \"$NABSPATH/bin/ncd.sh\""
+        if grep -q "bin/ncd.sh" "$target" 2>/dev/null; then
+            # Update existing installation if the path has changed (e.g. repo moved or renamed)
+            current_root=$(grep "NEWSPACK_DOCKER_ROOT=" "$target" | head -1 | cut -d= -f2- | tr -d '"')
+            if [ "$current_root" = "$NABSPATH" ]; then
+                echo "ncd is already installed on $target"
+            else
+                root_sub="s|NEWSPACK_DOCKER_ROOT=.*|NEWSPACK_DOCKER_ROOT=\"$NABSPATH\"|"
+                source_sub="s|source .*/bin/ncd\.sh\"*|source \"$NABSPATH/bin/ncd.sh\"|"
+                # Try BSD sed first, fall back to GNU sed
+                { sed -i '' "$root_sub" "$target" 2>/dev/null || sed -i "$root_sub" "$target"; } && \
+                { sed -i '' "$source_sub" "$target" 2>/dev/null || sed -i "$source_sub" "$target"; }
+                if [ $? -eq 0 ]; then
+                    echo "ncd path updated in $target"
+                    echo
+                    echo "Restart your terminal or run 'source $target' to apply the changes"
+                else
+                    echo "Error: failed to update $target."
+                fi
+            fi
         else
-            echo "NEWSPACK_DOCKER_ROOT=$NABSPATH" >> $target
-            echo $snippet >> $target
+            echo "NEWSPACK_DOCKER_ROOT=\"$NABSPATH\"" >> "$target"
+            echo "$snippet" >> "$target"
             echo "ncd installed!"
             echo
             echo "Restart your terminal or run 'source $target' to start using it"
