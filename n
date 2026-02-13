@@ -100,12 +100,21 @@ case $1 in
         read -e -p "> $HOME/" file
         target="$HOME/$file"
         snippet="source $NABSPATH/bin/ncd.sh"
-        if grep -Fxq "$snippet" $target
-        then
-            echo "ncd is already installed on $target"
+        if grep -q "bin/ncd.sh" "$target" 2>/dev/null; then
+            # Update existing installation if the path has changed (e.g. repo moved or renamed)
+            current_root=$(grep "NEWSPACK_DOCKER_ROOT=" "$target" | head -1 | cut -d= -f2)
+            if [ "$current_root" = "$NABSPATH" ]; then
+                echo "ncd is already installed on $target"
+            else
+                sed -i '' "s|NEWSPACK_DOCKER_ROOT=.*|NEWSPACK_DOCKER_ROOT=$NABSPATH|" "$target"
+                sed -i '' "s|source .*/bin/ncd\.sh|source $NABSPATH/bin/ncd.sh|" "$target"
+                echo "ncd path updated in $target"
+                echo
+                echo "Restart your terminal or run 'source $target' to apply the changes"
+            fi
         else
-            echo "NEWSPACK_DOCKER_ROOT=$NABSPATH" >> $target
-            echo $snippet >> $target
+            echo "NEWSPACK_DOCKER_ROOT=$NABSPATH" >> "$target"
+            echo "$snippet" >> "$target"
             echo "ncd installed!"
             echo
             echo "Restart your terminal or run 'source $target' to start using it"
