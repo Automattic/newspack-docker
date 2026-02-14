@@ -1,1 +1,1 @@
-All AI agent instructions are maintained in [AGENTS.md](../AGENTS.md). Read that file for full project context, commands, architecture, and workflows.
+All project conventions, commands, architecture, and workflows are documented in `AGENTS.md` at the repository root. Always read and follow that file. If any instruction here conflicts with `AGENTS.md`, the `AGENTS.md` version takes precedence.
