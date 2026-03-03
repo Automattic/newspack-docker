@@ -82,3 +82,6 @@ add_filter(
 	1,
 	3
 );
+
+// Disable Jetpack account protection requirement in local environment. It can lock you out of the admin in some cases.
+add_filter( 'jetpack_account_protection_user_requires_protection', '__return_false' );
