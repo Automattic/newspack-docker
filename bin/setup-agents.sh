@@ -1,34 +1,28 @@
 #!/usr/bin/env bash
 #
 # Set up AI agent tooling for Newspack development.
-# Installs recommended plugins at user scope so they are
-# available across all repositories in the workspace.
+# Reads marketplace and plugin configuration from .claude/settings.json
+# and installs everything at user scope.
 #
 # Usage: n setup-agents
 
 set -euo pipefail
 
-# ── Configuration ──────────────────────────────────────────────
+# ── Resolve workspace root ────────────────────────────────────
 
-# Claude Code marketplaces (GitHub owner/repo)
-marketplaces=(
-  Automattic/newspack-devkit
-  kenryu42/cc-marketplace
-  skills-directory/skill-codex
-  ChromeDevTools/chrome-devtools-mcp
-)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+SETTINGS_FILE="$ROOT_DIR/.claude/settings.json"
 
-# Claude Code plugins (plugin@marketplace, installed at user scope)
-plugins=(
-  newspack@newspack-devkit
-  superpowers@claude-plugins-official
-  context7@claude-plugins-official
-  linear@claude-plugins-official
-  figma@claude-plugins-official
-  safety-net@cc-marketplace
-  skill-codex@skill-codex
-  chrome-devtools-mcp@chrome-devtools-plugins
-)
+if [[ ! -f "$SETTINGS_FILE" ]]; then
+  echo "Error: $SETTINGS_FILE not found" >&2
+  exit 1
+fi
+
+if ! command -v jq &>/dev/null; then
+  echo "Error: jq is required but not installed" >&2
+  exit 1
+fi
 
 # ── Colors ─────────────────────────────────────────────────────
 
@@ -44,16 +38,18 @@ reset="\033[0m"
 echo ""
 echo -e "${bold}🤖 Setting up AI agent tooling...${reset}"
 
+# Add marketplaces from extraKnownMarketplaces (github sources only)
 echo ""
 echo -e "${cyan}📦 Adding marketplaces...${reset}"
-for m in "${marketplaces[@]}"; do
+jq -r '.extraKnownMarketplaces // {} | to_entries[] | select(.value.source.source == "github") | .value.source | if .ref then "\(.repo)#\(.ref)" else .repo end' "$SETTINGS_FILE" | while read -r m; do
   echo -e "   ${dim}${m}${reset}"
   claude plugin marketplace add "$m" 2>/dev/null || true
 done
 
+# Install plugins from enabledPlugins
 echo ""
 echo -e "${cyan}🔌 Installing plugins...${reset}"
-for p in "${plugins[@]}"; do
+jq -r '.enabledPlugins // {} | to_entries[] | select(.value == true) | .key' "$SETTINGS_FILE" | while read -r p; do
   echo -e "   ${dim}${p}${reset}"
   if claude plugin install "$p" --scope user 2>/dev/null; then
     echo -e "   ${green}✓${reset} ${p}"
